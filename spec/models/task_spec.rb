@@ -1,6 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe Task, type: :model do
+describe Task do
+  # 有効なファクトリを持つこと
+  it "has a valid factory" do
+    expect(FactoryBot.build(:task)).to be_valid
+  end
+
   # タイトルがあれば有効な状態であること
   it "is valid with a title" do
     task = Task.new(
