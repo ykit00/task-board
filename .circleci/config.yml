@@ -4,11 +4,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-<<<<<<< HEAD
        - image: circleci/ruby:2.5.1-node-browsers
-=======
-       - image: circleci/ruby:2.4.1-node-browsers
->>>>>>> d023b99dda0779157459f29c07479c68d2c919cc
 
     working_directory: ~/task-board
 
@@ -31,6 +27,9 @@ jobs:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+      # yarn update
+      - run: yarn install
 
       # Database setup
       - run: bundle exec rake db:create
