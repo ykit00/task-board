@@ -1,16 +1,83 @@
 # Ruby CircleCI 2.0 configuration file
+# version: 2
+# jobs:
+#   build:
+#     docker:
+#       - image: circleci/ruby:2.5.1-node-browsers
+#         environment:
+#           RAILS_ENV: test
+    #   - image: circleci/postgres:10.4-alpine
+    #     environment:
+    #       POSTGRES_USER: task-board
+    #       POSTGRES_DB: task_board_test
+    #       POSTGRES_PASSWORD: ""
+    #
+    # working_directory: ~/task-board
+    #
+    # steps:
+    #   - checkout
+    #
+    #   # Download and cache dependencies
+    #   - restore_cache:
+    #       keys:
+    #       - v1-dependencies-{{ checksum "Gemfile.lock" }}
+    #       # fallback to using the latest cache if no exact match is found
+    #       - v1-dependencies-
+    #
+    #   - run:
+    #       name: install dependencies
+    #       command: |
+    #         bundle install --jobs=4 --retry=3 --path vendor/bundle
+    #
+    #   - save_cache:
+    #       paths:
+    #         - ./vendor/bundle
+    #       key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+    #
+    #   - run:
+    #       name: Install postgresql 10
+    #       command: |
+    #         wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+    #         sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+    #         cat /etc/apt/sources.list.d/pgdg.list
+    #         sudo apt-get update
+    #         sudo apt-get install postgresql postgresql-contrib
+    #
+    #   # Database setup
+    #   - run: bundle exec rake db:create db:schema:load --trace
+    #
+    #   # run tests!
+    #   - run:
+    #       name: run tests
+    #       command: |
+    #         mkdir /tmp/test-results
+    #         TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+    #
+    #         bundle exec rspec --format progress \
+    #                         --format RspecJunitFormatter \
+    #                         --out /tmp/test-results/rspec.xml \
+    #                         --format progress \
+    #                         $TEST_FILES
+    #
+    #   # collect reports
+    #   - store_test_results:
+    #       path: /tmp/test-results
+    #   - store_artifacts:
+    #       path: /tmp/test-results
+    #       destination: test-results
+
+
+
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
 version: 2
 jobs:
   build:
     docker:
       - image: circleci/ruby:2.5.1-node-browsers
-        environment:
-          RAILS_ENV: test
       - image: circleci/postgres:10.4-alpine
-        environment:
-          POSTGRES_USER: task-board
-          POSTGRES_DB: task_board_test
-          POSTGRES_PASSWORD: ""
 
     working_directory: ~/task-board
 
@@ -34,17 +101,9 @@ jobs:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-      - run:
-          name: Install postgresql 10
-          command: |
-            wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-            sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-            cat /etc/apt/sources.list.d/pgdg.list
-            sudo apt-get update
-            sudo apt-get install postgresql postgresql-contrib
-
       # Database setup
-      - run: bundle exec rake db:create db:schema:load --trace
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
 
       # run tests!
       - run:
