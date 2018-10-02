@@ -36,9 +36,9 @@ jobs:
 
       # yarn
       - restore_cache:
-        keys:
-          - rails-demo-yarn-{{ checksum "yarn.lock" }}
-          - rails-demo-yarn-
+          keys:
+            - rails-demo-yarn-{{ checksum "yarn.lock" }}
+            - rails-demo-yarn-
 
       - run:
           name: Yarn Install
