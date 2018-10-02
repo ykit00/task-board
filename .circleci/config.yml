@@ -50,6 +50,10 @@ jobs:
             - ~/.cache/yarn
 
       # Database setup
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+          
       - run: bundle exec rake db:create db:schema:load --trace
 
       # run tests!
