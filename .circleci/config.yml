@@ -4,7 +4,11 @@ jobs:
   build:
     docker:
       # specify the version you desire here
+<<<<<<< HEAD
        - image: circleci/ruby:2.5.1-node-browsers
+=======
+       - image: circleci/ruby:2.4.1-node-browsers
+>>>>>>> d023b99dda0779157459f29c07479c68d2c919cc
 
     working_directory: ~/task-board
 
