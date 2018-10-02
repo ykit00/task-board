@@ -3,14 +3,8 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.5.1-node-browsers
-        environment:
-          RAILS_ENV: test
-      - image: circleci/postgres:10.4-alpine
-        environment:
-          POSTGRES_USER: task-board
-          POSTGRES_DB: task_board_test
-          POSTGRES_PASSWORD: ""
+      # specify the version you desire here
+       - image: circleci/ruby:2.5.1-node-browsers
 
     working_directory: ~/task-board
 
@@ -34,23 +28,12 @@ jobs:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-      # yarn
-      - restore_cache:
-        keys:
-          - rails-demo-yarn-{{ checksum "yarn.lock" }}
-          - rails-demo-yarn-
-
-      - run:
-          name: Yarn Install
-          command: yarn install --cache-folder ~/.cache/yarn
-
-      - save_cache:
-          key: rails-demo-yarn-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+      # yarn update
+      - run: yarn install
 
       # Database setup
-      - run: bundle exec rake db:create db:schema:load --trace
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
 
       # run tests!
       - run:
