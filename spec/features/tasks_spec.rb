@@ -5,9 +5,9 @@ RSpec.feature "Tasks", type: :feature do
   scenario "creates a new task" do
     visit root_path
     click_link "新規作成"
-    fill_in "Title", with: "Test Task"
-    fill_in "Description", with: "Trying out Capybara"
-    click_button "Create Task"
+    fill_in "タイトル", with: "Test Task"
+    fill_in "説明", with: "Trying out Capybara"
+    click_button "登録する"
 
     expect(page).to have_content "タスクを作成しました。"
     expect(page).to have_content "Test Task"
@@ -18,9 +18,9 @@ RSpec.feature "Tasks", type: :feature do
   scenario "show a task" do
     visit root_path
     click_link "新規作成"
-    fill_in "Title", with: "Test Task"
-    fill_in "Description", with: "Trying out Capybara"
-    click_button "Create Task"
+    fill_in "タイトル", with: "Test Task"
+    fill_in "説明", with: "Trying out Capybara"
+    click_button "登録する"
 
     click_link "Test Task"
     expect(page).to have_content "Test Task"
@@ -32,13 +32,13 @@ RSpec.feature "Tasks", type: :feature do
   scenario "edit a task" do
     visit root_path
     click_link "新規作成"
-    fill_in "Title", with: "Test Task"
-    fill_in "Description", with: "Trying out Capybara"
-    click_button "Create Task"
+    fill_in "タイトル", with: "Test Task"
+    fill_in "説明", with: "Trying out Capybara"
+    click_button "登録する"
 
     click_link "編集"
-    fill_in "Description", with: "Change"
-    click_button "Update Task"
+    fill_in "説明", with: "Change"
+    click_button "更新する"
 
     expect(page).to have_content "タスクを更新しました。"
     expect(page).to have_content "Change"
@@ -48,9 +48,9 @@ RSpec.feature "Tasks", type: :feature do
   scenario "delete a task" do
     visit root_path
     click_link "新規作成"
-    fill_in "Title", with: "Test Task"
-    fill_in "Description", with: "Trying out Capybara"
-    click_button "Create Task"
+    fill_in "タイトル", with: "Test Task"
+    fill_in "説明", with: "Trying out Capybara"
+    click_button "登録する"
 
     click_link "削除"
     expect(page).to have_content "タスクを削除しました。"
