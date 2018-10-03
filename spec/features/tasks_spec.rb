@@ -54,6 +54,6 @@ RSpec.feature "Tasks", type: :feature do
 
     click_link "削除"
     expect(page).to have_content "タスクを削除しました。"
-    expect(page).to have_content "Test Task"
+    expect(page).to_not have_content "Test Task"
   end
 end
