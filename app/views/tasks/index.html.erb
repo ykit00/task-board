@@ -5,6 +5,7 @@
     <li>
       <%= link_to task.title, task %>
       <%= task.description %>
+      <%= task.created_at %>
       <%= link_to '編集', edit_task_path(task) %>
       <%= link_to '削除', task, method: :delete, data:  { confirm: '削除してよろしいですか？' } %>
     </li>
