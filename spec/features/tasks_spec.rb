@@ -57,11 +57,11 @@ RSpec.feature "Tasks", type: :feature do
     expect(page).to_not have_content "Test Task"
   end
 
-  タスクが作成日の降順で並び替えられている
+  # タスクが作成日の降順で並び替えられている
   scenario "tasks sorted in descending order of creation date" do
     visit root_path
     click_link "新規作成"
-    fill_in "タイトル", with: "Test Task"
+    fill_in "タイトル", with: "Test Task1"
     fill_in "説明", with: "Trying out Capybara"
     click_button "登録する"
 
@@ -77,6 +77,7 @@ RSpec.feature "Tasks", type: :feature do
 
     tasks = all('ul > li')
     expect(tasks[0]).to have_content('Test Task3')
-    
+    expect(tasks[1]).to have_content('Test Task2')
+    expect(tasks[2]).to have_content('Test Task1')
   end
 end
