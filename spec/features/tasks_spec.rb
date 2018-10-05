@@ -57,26 +57,26 @@ RSpec.feature "Tasks", type: :feature do
     expect(page).to_not have_content "Test Task"
   end
 
-  # タスクが作成日の降順で並び替えられている
-  # scenario "tasks sorted in descending order of creation date" do
-  #   visit root_path
-  #   click_link "新規作成"
-  #   fill_in "タイトル", with: "Test Task"
-  #   fill_in "説明", with: "Trying out Capybara"
-  #   click_button "登録する"
-  #
-  #   click_link "新規作成"
-  #   fill_in "タイトル", with: "Test Task2"
-  #   fill_in "説明", with: "Trying out Capybara"
-  #   click_button "登録する"
-  #
-  #   click_link "新規作成"
-  #   fill_in "タイトル", with: "Test Task3"
-  #   fill_in "説明", with: "Trying out Capybara"
-  #   click_button "登録する"
-  #
-  #   expect(page.text).to match %r{Task3}
-  #   expect(page).to have_content "Test Task"
-  #   expect(page).to have_content "Trying out Capybara"
-  # end
+  タスクが作成日の降順で並び替えられている
+  scenario "tasks sorted in descending order of creation date" do
+    visit root_path
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task"
+    fill_in "説明", with: "Trying out Capybara"
+    click_button "登録する"
+
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task2"
+    fill_in "説明", with: "Trying out Capybara"
+    click_button "登録する"
+
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task3"
+    fill_in "説明", with: "Trying out Capybara"
+    click_button "登録する"
+
+    tasks = all('ul > li')
+    expect(tasks[0]).to have_content('Test Task3')
+    
+  end
 end
