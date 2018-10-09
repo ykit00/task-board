@@ -4,6 +4,18 @@
   <%= f.label :title %>
   <%= f.text_field :title %>
   <%= f.label :description %>
-  <%= f.text_field :description %>
+  <%= f.text_area :description %>
+  <%= f.label :deadline %>
+  <%= f.datetime_select(
+              :deadline,
+              start_year: Time.now.year,
+              end_year: Time.now.year + 3,
+              minute_step: 10,
+              include_blank: true) %>
+
+  <!--  こちらを使いたいが方法を調査中-->
+  <%#= f.date_field :deadline %>
+  <%#= f.datetime_select :deadline, minute_step: 10, include_blank: true %>
+
   <%= f.submit %>
 <% end %>
