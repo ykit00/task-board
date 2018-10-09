@@ -2,6 +2,8 @@
 
 Task management tool
 
+application for [TaskBoard](https://task-board-yi.herokuapp.com/tasks)
+
 # Schema
 
 User
