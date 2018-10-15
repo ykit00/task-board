@@ -1,21 +1,50 @@
-<%= form_with(model: @task, local: true) do |f| %>
-  <%= render 'shared/error_messages', object: f.object %>
-  
-  <%= f.label :title %>
-  <%= f.text_field :title %>
-  <%= f.label :description %>
-  <%= f.text_area :description %>
-  <%= f.label :deadline %>
-  <%= f.datetime_select(
-              :deadline,
-              start_year: Time.now.year,
-              end_year: Time.now.year + 3,
-              minute_step: 10,
-              include_blank: true) %>
+<div class="container">
+  <div class="row">
+    <%= form_with(model: @task, local: true, class: 'mx-auto') do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
 
-  <!--  こちらを使いたいが方法を調査中-->
-  <%#= f.date_field :deadline %>
-  <%#= f.datetime_select :deadline, minute_step: 10, include_blank: true %>
-
-  <%= f.submit %>
-<% end %>
+      <%= f.label :title %>
+      <%= f.text_field :title, class: 'form-control' %>
+      <%= f.label :description %>
+      <%= f.text_area :description, class: 'form-control' %>
+      <%= f.label :deadline %>
+      <%= content_tag :div, class: 'input-group date', id: 'datetimepicker', 'data-target-input': 'nearest' do %>
+        <%= f.text_field :deadline, class: 'form-control datetimepicker-input', 'data-target': '#datetimepicker' %>
+        <%= content_tag :div, class: 'input-group-append', 'data-target': '#datetimepicker', 'data-toggle': 'datetimepicker' do %>
+          <%= content_tag :div, class: 'input-group-text' do %>
+            <i class="fa fa-calendar"></i>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= f.submit %>
+    <% end %>
+    <script type="text/javascript">
+      $(function(){
+        $('#datetimepicker').datetimepicker({
+          dayViewHeaderFormat: 'YYYY年 MMMM',
+          tooltips: {
+            close: '閉じる',
+            selectMonth: '月を選択',
+            prevMonth: '前月',
+            nextMonth: '次月',
+            selectYear: '年を選択',
+            prevYear: '前年',
+            nextYear: '次年',
+            selectTime: '時間を選択',
+            selectDate: '日付を選択',
+            prevDecade: '前期間',
+            nextDecade: '次期間',
+            selectDecade: '期間を選択',
+            prevCentury: '前世紀',
+            nextCentury: '次世紀'
+          },
+          format: 'YYYY/MM/DD',
+          locale: 'ja',
+          buttons: {
+            showClose: true
+          }
+        });
+      });
+    </script>
+  </div>
+</div>

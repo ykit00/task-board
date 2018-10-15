@@ -13,6 +13,11 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 gem 'webpacker', '~> 3.5'
+gem 'bootstrap'
+gem 'jquery-rails'
+gem 'momentjs-rails'
+gem 'font-awesome-sass'
+gem 'bootstrap4-datetime-picker-rails'
 
 # gem 'mini_magick', '~> 4.8'
 
