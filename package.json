@@ -5,10 +5,14 @@
     "@fortawesome/fontawesome-free": "^5.4.1",
     "@rails/webpacker": "3.5",
     "bootstrap": "4",
+    "bootstrap4-datetimepicker": "^5.2.3",
+    "font-awesome": "4.7.0",
     "jquery": "^3.3.1",
+    "moment": "^2.22.2",
     "npm": "^6.4.1",
     "popper.js": "^1.14.4",
-    "rails-ujs": "^5.2.1"
+    "rails-ujs": "^5.2.1",
+    "tempusdominus-bootstrap-4": "^5.1.2"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"
