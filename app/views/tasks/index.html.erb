@@ -10,14 +10,11 @@
       <%= task.description %>
       <span>作成: </span>
       <%= task.created_at.to_s(:date) %>
-      <% if task.deadline.present? %>
-        <span>終了期限: </span>
-        <%= task.deadline.to_s(:date) %>
-      <% end %>
+      <%= "終了期限: #{task.deadline.to_s(:date)}" if task.deadline.present? %>
       <%= link_to '編集', edit_task_path(task) %>
       <%= link_to '削除', task, method: :delete, data:  { confirm: '削除してよろしいですか？' } %>
     </li>
   <% end %>
 </ul>
 
- <%= link_to '新規作成', new_task_path %>
+<%= link_to '新規作成', new_task_path %>
