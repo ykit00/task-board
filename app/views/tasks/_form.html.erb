@@ -8,16 +8,15 @@
       <%= f.label :description %>
       <%= f.text_area :description, class: 'form-control' %>
       <%= f.label :deadline %>
-      <%= content_tag :div, class: 'input-group date', id: 'datetimepicker', 'data-target-input': 'nearest' do %>
+      <div class="input-group date" id="datetimepicker" data-target-input="nearest">
         <%= f.text_field :deadline, class: 'form-control datetimepicker-input', 'data-target': '#datetimepicker' %>
-        <%= content_tag :div, class: 'input-group-append', 'data-target': '#datetimepicker', 'data-toggle': 'datetimepicker' do %>
-          <%= content_tag :div, class: 'input-group-text' do %>
-            <i class="fa fa-calendar"></i>
-          <% end %>
-        <% end %>
-      <% end %>
+        <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        </div>
+      </div>
       <%= f.submit %>
     <% end %>
+
     <script type="text/javascript">
       $(function(){
         $('#datetimepicker').datetimepicker({
