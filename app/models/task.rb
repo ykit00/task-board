@@ -9,7 +9,16 @@ class Task < ApplicationRecord
 
   private
 
+  def self.search(search)
+    if search
+      where ['title LIKE ?', "%#{search}"]
+    else
+      all
+    end
+  end
+
   def deadline_is_not_past?
     errors.add(:deadline, 'は過去の日時を設定できません。') if deadline.present? && deadline.past?
   end
+
 end

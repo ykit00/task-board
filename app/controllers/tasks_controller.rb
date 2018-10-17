@@ -4,7 +4,7 @@ class TasksController < ApplicationController
     if params[:deadline].present? && params[:deadline] == "desc"
       @tasks = Task.deadline_desc
     else
-      @tasks = Task.order('created_at DESC')
+      @tasks = Task.search(params[:search]).order('created_at DESC')
     end
   end
 
