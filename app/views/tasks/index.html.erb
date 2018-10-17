@@ -7,7 +7,7 @@
   <% @tasks.each do |task| %>
     <li>
       <%= link_to task.title, task %>
-      <%= task.description %>
+      <%= task.status_i18n %>
       <span>作成: </span>
       <%= task.created_at.to_s(:date) %>
       <%= "終了期限: #{task.deadline.to_s(:date)}" if task.deadline.present? %>
