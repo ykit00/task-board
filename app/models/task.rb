@@ -5,6 +5,8 @@ class Task < ApplicationRecord
 
   scope :deadline_desc, -> { order(deadline: :asc) }
 
+  enum status: { not_yet: 0, in_progress: 1, done: 2, pending: 3, discontinued: 4 }
+
   private
 
   def deadline_is_not_past?
