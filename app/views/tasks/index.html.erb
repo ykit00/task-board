@@ -3,6 +3,11 @@
 <button><%= link_to '作成日:降順', tasks_path %></button>
 <button><%= link_to '終了期限:昇順', tasks_path(deadline: 'desc') %></button>
 
+<%= form_tag tasks_path, method: 'get' do %>
+  <%= text_field_tag :search %>
+  <%= submit_tag "検索", title: nil %>
+<% end %>
+
 <ul>
   <% @tasks.each do |task| %>
     <li>
