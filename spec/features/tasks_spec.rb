@@ -162,4 +162,60 @@ RSpec.feature "Tasks", type: :feature do
     expect(tasks[1]).to have_content('Test Task3')
     expect(tasks[2]).to have_content('Test Task1')
   end
+
+  scenario "search by title" do
+    visit root_path
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task1"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/03/01"
+    click_button "登録する"
+
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task2"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/01/01"
+    click_button "登録する"
+
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task3"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/02/01"
+    click_button "登録する"
+
+    fill_in "title", with: "3"
+    click_button "検索"
+
+    expect(page).to have_content "Test Task3"
+    expect(page).to_not have_content "Test Task1"
+    expect(page).to_not have_content "Test Task2"
+  end
+
+  # scenario "search by status" do
+  #   visit root_path
+  #   click_link "新規作成"
+  #   fill_in "タイトル", with: "Test Task1"
+  #   fill_in "説明", with: "Trying out Capybara"
+  #   fill_in "終了期限", with: "2050/03/01"
+  #   click_button "登録する"
+  #
+  #   click_link "新規作成"
+  #   fill_in "タイトル", with: "Test Task2"
+  #   fill_in "説明", with: "Trying out Capybara"
+  #   fill_in "終了期限", with: "2050/01/01"
+  #   click_button "登録する"
+  #
+  #   click_link "新規作成"
+  #   fill_in "タイトル", with: "Test Task3"
+  #   fill_in "説明", with: "Trying out Capybara"
+  #   fill_in "終了期限", with: "2050/02/01"
+  #   click_button "登録する"
+  #
+  #   fill_in "title", with: "3"
+  #   click_button "検索"
+  #
+  #   expect(page).to have_content "Test Task3"
+  #   expect(page).to_not have_content "Test Task1"
+  #   expect(page).to_not have_content "Test Task2"
+  # end
 end
