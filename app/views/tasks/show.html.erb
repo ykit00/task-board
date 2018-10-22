@@ -1,7 +1,10 @@
 <h1>タスク</h1>
 
 <%= @task.title %>
-<%= @task.description %>
+<p>説明: <%= @task.description %></p>
+<p>締切日: <%= @task.deadline %></p>
+<p>作成日: <%= @task.created_at %></p>
+
 
 <%= link_to '編集', edit_task_path %>
 <%= link_to '戻る', tasks_path %>
