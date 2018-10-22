@@ -3,20 +3,13 @@ class Task < ApplicationRecord
   validates :description, length: { maximum: 100 }
   validate :deadline_is_not_past?
 
-  scope :deadline_desc, -> { order(deadline: :asc) }
-
   enum status: { not_yet: 0, in_progress: 1, done: 2, pending: 3, discontinued: 4 }
 
-  class << self
-    def search(search)
-      if search
-        where 'title LIKE ?', "%#{search}%" # 一部一致で検索
-        # where 'title LIKE ?', search # 完全一致で検索
-      else
-        all
-      end
-    end
-  end
+  scope :created_at_desc, -> { order(created_at: :desc) }
+  scope :deadline_asc, -> { order(deadline: :asc) }
+  scope :search_by_title, ->(title) { where 'lower(title) LIKE ?', "%#{title.downcase}%"}
+  scope :search_by_status, ->(status) { where status: status }
+
 
   private
 

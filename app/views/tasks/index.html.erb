@@ -1,10 +1,11 @@
 <h1>タスク一覧</h1>
 
 <button><%= link_to '作成日:降順', tasks_path %></button>
-<button><%= link_to '終了期限:昇順', tasks_path(deadline: 'desc') %></button>
+<button><%= link_to '終了期限:昇順', tasks_path(deadline: 'asc') %></button>
 
 <%= form_tag tasks_path, method: 'get' do %>
-  <%= text_field_tag :search %>
+  <%= text_field_tag :title %>
+  <%= select_tag :status, options_for_select(Task.statuses_i18n.invert), include_blank: true %>
   <%= submit_tag "検索", title: nil %>
 <% end %>
 
