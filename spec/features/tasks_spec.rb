@@ -16,9 +16,12 @@ RSpec.feature "Tasks", type: :feature do
     click_link "新規作成"
     fill_in "タイトル", with: "Test Task"
     fill_in "説明", with: "Trying out Capybara"
-    click_button "登録する"
 
+    click_button "登録する"
     expect(page).to have_content "タスクを作成しました。"
+    expect(page).to have_content "Test Task"
+
+    click_link "Test Task"
     expect(page).to have_content "Test Task"
     expect(page).to have_content "Trying out Capybara"
   end
@@ -29,12 +32,17 @@ RSpec.feature "Tasks", type: :feature do
     fill_in "タイトル", with: "Test Task"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/01/01"
-    click_button "登録する"
 
+    click_button "登録する"
     expect(page).to have_content "タスクを作成しました。"
+    expect(page).to have_content "Test Task"
+    expect(page).to have_content "2050/01/01"
+
+    click_link "Test Task"
     expect(page).to have_content "Test Task"
     expect(page).to have_content "Trying out Capybara"
     expect(page).to have_content "2050/01/01"
+
   end
 
   scenario "show a task" do
@@ -59,9 +67,11 @@ RSpec.feature "Tasks", type: :feature do
 
     click_link "編集"
     fill_in "説明", with: "Change"
-    click_button "更新する"
 
+    click_button "更新する"
     expect(page).to have_content "タスクを更新しました。"
+
+    click_link "Test Task"
     expect(page).to have_content "Change"
   end
 
