@@ -1,8 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   def index
-    @tasks = Task.all.created_at_desc
-    @tasks = Task.deadline_asc if params[:deadline].present? && params[:deadline] == "asc"
+    @tasks = sort_tasks
     @tasks = @tasks.search_by_title params[:title] if params[:title].present?
     @tasks = @tasks.search_by_status params[:status] if params[:status].present?
   end
@@ -46,5 +45,13 @@ class TasksController < ApplicationController
 
     def task_params
       params.require(:task).permit(:title, :description, :deadline)
+    end
+
+    def sort_tasks
+      if params[:deadline].present? && params[:deadline] == "asc"
+        Task.all.sort_by_deadline_asc
+      else
+        Task.all.sort_by_created_at_desc
+      end
     end
 end
