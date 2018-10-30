@@ -7,7 +7,7 @@ class Task < ApplicationRecord
 
   scope :sort_by_created_at_desc, -> { order(created_at: :desc) }
   scope :sort_by_deadline_asc, -> { order(deadline: :asc) }
-  scope :search_by_title, ->(title) { where 'lower(title) LIKE ?', "%#{title.downcase}%"}
+  scope :search_by_title, ->(title) { where 'lower(title) LIKE ?', "%#{title.downcase}%" }
   scope :search_by_status, ->(status) { where status: status }
 
 
