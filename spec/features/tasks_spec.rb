@@ -191,31 +191,57 @@ RSpec.feature "Tasks", type: :feature do
     expect(page).to_not have_content "Test Task2"
   end
 
-  # scenario "search by status" do
-  #   visit root_path
-  #   click_link "新規作成"
-  #   fill_in "タイトル", with: "Test Task1"
-  #   fill_in "説明", with: "Trying out Capybara"
-  #   fill_in "終了期限", with: "2050/03/01"
-  #   click_button "登録する"
-  #
-  #   click_link "新規作成"
-  #   fill_in "タイトル", with: "Test Task2"
-  #   fill_in "説明", with: "Trying out Capybara"
-  #   fill_in "終了期限", with: "2050/01/01"
-  #   click_button "登録する"
-  #
-  #   click_link "新規作成"
-  #   fill_in "タイトル", with: "Test Task3"
-  #   fill_in "説明", with: "Trying out Capybara"
-  #   fill_in "終了期限", with: "2050/02/01"
-  #   click_button "登録する"
-  #
-  #   fill_in "title", with: "3"
-  #   click_button "検索"
-  #
-  #   expect(page).to have_content "Test Task3"
-  #   expect(page).to_not have_content "Test Task1"
-  #   expect(page).to_not have_content "Test Task2"
-  # end
+  scenario "search by status" do
+    visit root_path
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task1"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/03/01"
+    click_button "登録する"
+    click_link "Test Task1"
+    click_link "編集"
+    select "進行中", from: "task_status"
+    click_button "更新する"
+
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task2"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/03/01"
+    click_button "登録する"
+    click_link "Test Task2"
+    click_link "編集"
+    select "完了", from: "task_status"
+    click_button "更新する"
+
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task3"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/03/01"
+    click_button "登録する"
+    click_link "Test Task3"
+    click_link "編集"
+    select "保留", from: "task_status"
+    click_button "更新する"
+
+    select "進行中", from: "status"
+    click_button "検索"
+
+    expect(page).to have_content "Test Task1"
+    expect(page).to_not have_content "Test Task2"
+    expect(page).to_not have_content "Test Task3"
+
+    select "完了", from: "status"
+    click_button "検索"
+
+    expect(page).to have_content "Test Task2"
+    expect(page).to_not have_content "Test Task1"
+    expect(page).to_not have_content "Test Task3"
+
+    select "保留", from: "status"
+    click_button "検索"
+
+    expect(page).to have_content "Test Task3"
+    expect(page).to_not have_content "Test Task1"
+    expect(page).to_not have_content "Test Task2"
+  end
 end
