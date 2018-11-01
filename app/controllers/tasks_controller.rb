@@ -47,7 +47,7 @@ class TasksController < ApplicationController
     end
 
     def sort_tasks
-      if params[:sort_deadline].present? && params[:sort_sort_deadline] == "asc"
+      if params[:sort_deadline].present? && params[:sort_deadline] == "asc"
         Task.all.sort_by_deadline_asc
       elsif params[:sort_deadline].present? && params[:sort_deadline] == "desc"
         Task.all.sort_by_deadline_desc

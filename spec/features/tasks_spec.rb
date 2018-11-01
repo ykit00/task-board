@@ -183,7 +183,7 @@ RSpec.feature "Tasks", type: :feature do
     fill_in "終了期限", with: "2050/02/01"
     click_button "登録する"
 
-    fill_in "title", with: "3"
+    fill_in "search_title", with: "3"
     click_button "検索"
 
     expect(page).to have_content "Test Task3"
@@ -223,21 +223,21 @@ RSpec.feature "Tasks", type: :feature do
     select "保留", from: "task_status"
     click_button "更新する"
 
-    select "進行中", from: "status"
+    select "進行中", from: "search_status"
     click_button "検索"
 
     expect(page).to have_content "Test Task1"
     expect(page).to_not have_content "Test Task2"
     expect(page).to_not have_content "Test Task3"
 
-    select "完了", from: "status"
+    select "完了", from: "search_status"
     click_button "検索"
 
     expect(page).to have_content "Test Task2"
     expect(page).to_not have_content "Test Task1"
     expect(page).to_not have_content "Test Task3"
 
-    select "保留", from: "status"
+    select "保留", from: "search_status"
     click_button "検索"
 
     expect(page).to have_content "Test Task3"
