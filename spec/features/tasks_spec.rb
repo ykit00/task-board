@@ -163,6 +163,68 @@ RSpec.feature "Tasks", type: :feature do
     expect(tasks[2]).to have_content('Test Task1')
   end
 
+  scenario "sort by priority ascending button in ascending order of priority" do
+    visit root_path
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task1"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/03/01"
+    select "中", from: "task_priority"
+    click_button "登録する"
+
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task2"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/01/01"
+    select "高", from: "task_priority"
+    click_button "登録する"
+
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task3"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/02/01"
+    select "低", from: "task_priority"
+    click_button "登録する"
+
+    click_link "優先度:昇順"
+
+    tasks = all('ul > li')
+    expect(tasks[0]).to have_content('Test Task3')
+    expect(tasks[1]).to have_content('Test Task1')
+    expect(tasks[2]).to have_content('Test Task2')
+  end
+
+  scenario "sort by priority descending button in descending order of priority" do
+    visit root_path
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task1"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/03/01"
+    select "中", from: "task_priority"
+    click_button "登録する"
+
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task2"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/01/01"
+    select "高", from: "task_priority"
+    click_button "登録する"
+
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task3"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/02/01"
+    select "低", from: "task_priority"
+    click_button "登録する"
+
+    click_link "優先度:降順"
+
+    tasks = all('ul > li')
+    expect(tasks[0]).to have_content('Test Task2')
+    expect(tasks[1]).to have_content('Test Task1')
+    expect(tasks[2]).to have_content('Test Task3')
+  end
+
   scenario "search by title" do
     visit root_path
     click_link "新規作成"
@@ -238,6 +300,60 @@ RSpec.feature "Tasks", type: :feature do
     expect(page).to_not have_content "Test Task3"
 
     select "保留", from: "search_status"
+    click_button "検索"
+
+    expect(page).to have_content "Test Task3"
+    expect(page).to_not have_content "Test Task1"
+    expect(page).to_not have_content "Test Task2"
+  end
+
+  scenario "search by priority" do
+    visit root_path
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task1"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/03/01"
+    click_button "登録する"
+    click_link "Test Task1"
+    click_link "編集"
+    select "高", from: "task_priority"
+    click_button "更新する"
+
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task2"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/03/01"
+    click_button "登録する"
+    click_link "Test Task2"
+    click_link "編集"
+    select "中", from: "task_priority"
+    click_button "更新する"
+
+    click_link "新規作成"
+    fill_in "タイトル", with: "Test Task3"
+    fill_in "説明", with: "Trying out Capybara"
+    fill_in "終了期限", with: "2050/03/01"
+    click_button "登録する"
+    click_link "Test Task3"
+    click_link "編集"
+    select "低", from: "task_priority"
+    click_button "更新する"
+
+    select "高", from: "search_priority"
+    click_button "検索"
+
+    expect(page).to have_content "Test Task1"
+    expect(page).to_not have_content "Test Task2"
+    expect(page).to_not have_content "Test Task3"
+
+    select "中", from: "search_priority"
+    click_button "検索"
+
+    expect(page).to have_content "Test Task2"
+    expect(page).to_not have_content "Test Task1"
+    expect(page).to_not have_content "Test Task3"
+
+    select "低", from: "search_priority"
     click_button "検索"
 
     expect(page).to have_content "Test Task3"

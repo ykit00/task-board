@@ -4,14 +4,14 @@ class Task < ApplicationRecord
   validate :deadline_is_not_past
 
   enum status: { not_yet: 0, in_progress: 1, done: 2, pending: 3, discontinued: 4 }
-  enum priority: { high: 1, middle: 2, low: 3 }
+  enum priority: { low: 1, middle: 2, high: 3 }
 
-  scope :sort_by_created_at_asc, -> { order(created_at: :asc) }
-  scope :sort_by_created_at_desc, -> { order(created_at: :desc) }
-  scope :sort_by_deadline_asc, -> { order(deadline: :asc) }
-  scope :sort_by_deadline_desc, -> { order(deadline: :desc) }
-  scope :sort_by_priority_asc, -> { order(priority: :asc) }
-  scope :sort_by_priority_desc, -> { order(priority: :desc) }
+  scope :sort_by_created_at_asc, -> { order('created_at ASC') }
+  scope :sort_by_created_at_desc, -> { order('created_at DESC') }
+  scope :sort_by_deadline_asc, -> { order('deadline ASC NULLS LAST') }
+  scope :sort_by_deadline_desc, -> { order('deadline DESC NULLS LAST') }
+  scope :sort_by_priority_asc, -> { order('priority ASC NULLS LAST') }
+  scope :sort_by_priority_desc, -> { order('priority DESC NULLS LAST') }
 
   scope :search_by_title, ->(title) { where 'title LIKE ?', "%#{title}%" }
   scope :search_by_status, ->(status) { where status: status }
