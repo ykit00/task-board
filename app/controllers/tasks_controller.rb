@@ -3,6 +3,7 @@ class TasksController < ApplicationController
   def index
     @tasks = sort_tasks
     search_tasks
+    @tasks = @tasks.page params[:page]
   end
 
   def show

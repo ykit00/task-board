@@ -19,6 +19,7 @@ gem 'momentjs-rails', '~> 2.10'
 gem 'font-awesome-sass', '~> 5.3.1'
 gem 'bootstrap4-datetime-picker-rails', '~> 0.2.0'
 gem 'enum_help', '~> 0.0.17'
+gem 'kaminari'
 
 # gem 'mini_magick', '~> 4.8'
 
