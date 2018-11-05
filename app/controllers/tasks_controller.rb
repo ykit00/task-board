@@ -2,8 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   def index
     @tasks = sort_tasks
-    @tasks = @tasks.search_by_title params[:title] if params[:title].present?
-    @tasks = @tasks.search_by_status params[:status] if params[:status].present?
+    search_tasks
   end
 
   def show
@@ -44,14 +43,31 @@ class TasksController < ApplicationController
     end
 
     def task_params
-      params.require(:task).permit(:title, :description, :deadline, :status)
+      params.require(:task).permit(:title, :description, :deadline, :status, :priority)
     end
 
     def sort_tasks
-      if params[:deadline].present? && params[:deadline] == "asc"
+      if params[:sort_deadline].present? && params[:sort_deadline] == "asc"
         Task.all.sort_by_deadline_asc
+      elsif params[:sort_deadline].present? && params[:sort_deadline] == "desc"
+        Task.all.sort_by_deadline_desc
+      elsif params[:sort_created_at].present? && params[:sort_created_at] == "asc"
+        Task.all.sort_by_created_at_asc
+      elsif params[:sort_created_at].present? && params[:sort_created_at] == "desc"
+        Task.all.sort_by_created_at_desc
+      elsif params[:sort_priority].present? && params[:sort_priority] == "asc"
+        Task.all.sort_by_priority_asc
+      elsif params[:sort_priority].present? && params[:sort_priority] == "desc"
+        Task.all.sort_by_priority_desc
       else
         Task.all.sort_by_created_at_desc
       end
     end
+
+    def search_tasks
+      @tasks = @tasks.search_by_title params[:search_title] if params[:search_title].present?
+      @tasks = @tasks.search_by_status params[:search_status] if params[:search_status].present?
+      @tasks = @tasks.search_by_priority params[:search_priority] if params[:search_priority].present?
+    end
+
 end

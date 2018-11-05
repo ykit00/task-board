@@ -14,6 +14,8 @@
           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
         </div>
       </div>
+      <%= f.label :priority %>
+      <%= f.select :priority, Task.priorities.keys.map { |k| [Task.priorities_i18n[k], k]}, include_blank: true %>
       <%= f.label :status %>
       <%= f.select :status, Task.statuses.keys.map { |k| [Task.statuses_i18n[k], k]} %>
       <%= f.submit %>

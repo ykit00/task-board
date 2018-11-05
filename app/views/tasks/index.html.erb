@@ -1,19 +1,35 @@
 <h1>タスク一覧</h1>
 
-<button><%= link_to '作成日:降順', tasks_path %></button>
-<button><%= link_to '終了期限:昇順', tasks_path(deadline: 'asc') %></button>
+<h3>ソート</h3>
+<p>作成日</p>
+<button><%= link_to '作成日:昇順', tasks_path(sort_created_at: 'asc') %></button>
+<button><%= link_to '作成日:降順', tasks_path(sort_created_at: 'desc') %></button>
+<p>終了期限</p>
+<button><%= link_to '終了期限:昇順', tasks_path(sort_deadline: 'asc') %></button>
+<button><%= link_to '終了期限:降順', tasks_path(sort_deadline: 'desc') %></button>
+<p>優先度</p>
+<button><%= link_to '優先度:昇順', tasks_path(sort_priority: 'asc') %></button>
+<button><%= link_to '優先度:降順', tasks_path(sort_priority: 'desc') %></button>
 
+
+<h3>検索</h3>
 <%= form_tag tasks_path, method: 'get' do %>
-  <%= text_field_tag :title %>
-  <%= select_tag :status, options_for_select(Task.statuses_i18n.invert), include_blank: true %>
-  <%= submit_tag "検索", title: nil %>
+  <%= label_tag "タイトル" %>
+  <%= text_field_tag :search_title, params[:search_title] %>
+  <%= label_tag "優先度" %>
+  <%= select_tag :search_priority, options_for_select(Task.priorities_i18n.invert, selected: params[:search_priority]), include_blank: true %>
+  <%= label_tag "状態" %>
+  <%= select_tag :search_status, options_for_select(Task.statuses_i18n.invert, selected: params[:search_status]), include_blank: true %>
+  <%= submit_tag "検索" %>
+  <%= link_to "リセット", tasks_path %>
 <% end %>
 
 <ul>
   <% @tasks.each do |task| %>
     <li>
       <%= link_to task.title, task %>
-      <%= task.status_i18n %>
+      <%= "優先度: #{task.priority_i18n}" if task.priority.present?%>
+      <%= "状態: #{task.status_i18n}" %>
       <span>作成: </span>
       <%= task.created_at.to_s(:date) %>
       <%= "終了期限: #{task.deadline.to_s(:date)}" if task.deadline.present? %>

@@ -31,9 +31,6 @@ describe Task do
 
   # 検索文字列に一致するタスクを返すこと
   it "returns tasks that match the search term" do
-    # task1 = FactoryBot.build(:task, title: "task1")
-    # task2 = FactoryBot.build(:task, title: "task2")
-    # task3 = FactoryBot.build(:task, title: "task3")
     task1 = Task.create(title: "task1")
     task2 = Task.create(title: "task2")
     task3 = Task.create(title: "task3")
