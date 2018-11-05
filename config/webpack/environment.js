@@ -14,7 +14,7 @@ environment.plugins.prepend(
     new webpack.ProvidePlugin({
       $: 'jquery/dist/jquery',
       jQuery: 'jquery/dist/jquery',
-      Popper: 'popper.js/dist/popper'
+      Popper: 'popper.js/dist/popper',
       DateTimePicker: 'tempusdominus-bootstrap-4/src/js/tempusdominus-bootstrap-4'
     })
 )
