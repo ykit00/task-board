@@ -4,7 +4,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.4.1",
     "@rails/webpacker": "3.5",
-    "bootstrap": "4",
+    "bootstrap": "^4.1.3",
     "bootstrap4-datetimepicker": "^5.2.3",
     "font-awesome": "4.7.0",
     "jquery": "^3.3.1",
