@@ -1,43 +1,123 @@
-<h1>タスク一覧</h1>
+<div class="container">
+  <header>
+    <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
+      <a class="navbar-brand" href="/">TaskBoard</a>
+      <%= link_to '新規タスク', new_task_path, class: 'navbar-text' %>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Features</a>
+          </li>
+        </ul>
+        <div id="search-form" class="mb-2">
+          <%= form_tag tasks_path, method: 'get', class: 'form-inline my-2 my-lg-0' do %>
+            <%= label_tag :search_priority, "優先度", class: 'px-2' %>
+            <%= select_tag :search_priority, options_for_select(Task.priorities_i18n.invert, selected: params[:search_priority]), include_blank: true, class: 'form-control' %>
+            <%= label_tag :search_status, "状態", class: 'px-2'%>
+            <%= select_tag :search_status, options_for_select(Task.statuses_i18n.invert, selected: params[:search_status]), include_blank: true, class: 'form-control' %>
+            <%= text_field_tag :search_title, params[:search_title], placeholder: 'タイトル検索', class: 'form-control mr-sm-2 ml-2' %>
+            <%= submit_tag "検索", class: 'btn btn-outline-success my-2 my-sm-0' %>
+          <% end %>
+        </div>
+      </div>
+    </nav>
 
-<h3>ソート</h3>
-<p>作成日</p>
-<button><%= link_to '作成日:昇順', tasks_path(sort_created_at: 'asc') %></button>
-<button><%= link_to '作成日:降順', tasks_path(sort_created_at: 'desc') %></button>
-<p>終了期限</p>
-<button><%= link_to '終了期限:昇順', tasks_path(sort_deadline: 'asc') %></button>
-<button><%= link_to '終了期限:降順', tasks_path(sort_deadline: 'desc') %></button>
-<p>優先度</p>
-<button><%= link_to '優先度:昇順', tasks_path(sort_priority: 'asc') %></button>
-<button><%= link_to '優先度:降順', tasks_path(sort_priority: 'desc') %></button>
+    <div class="flash-message mb-5">
+      <% flash.each do |message_type, message| %>
+        <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+      <% end %>
+    </div>
+  </header>
 
+<!--  <p>作成日</p>-->
+<!--  <button><%#= link_to '作成日:昇順', tasks_path(sort_created_at: 'asc') %></button>-->
+  <!--  <button><%#= link_to '作成日:降順', tasks_path(sort_created_at: 'desc') %></button>-->
+  <!--  <p>終了期限</p>-->
+  <!--  <button><%#= link_to '終了期限:昇順', tasks_path(sort_deadline: 'asc') %></button>-->
+  <!--  <button><%#= link_to '終了期限:降順', tasks_path(sort_deadline: 'desc') %></button>-->
 
-<h3>検索</h3>
-<%= form_tag tasks_path, method: 'get' do %>
-  <%= label_tag "タイトル" %>
-  <%= text_field_tag :search_title, params[:search_title] %>
-  <%= label_tag "優先度" %>
-  <%= select_tag :search_priority, options_for_select(Task.priorities_i18n.invert, selected: params[:search_priority]), include_blank: true %>
-  <%= label_tag "状態" %>
-  <%= select_tag :search_status, options_for_select(Task.statuses_i18n.invert, selected: params[:search_status]), include_blank: true %>
-  <%= submit_tag "検索" %>
-  <%= link_to "リセット", tasks_path %>
-<% end %>
-
-<ul>
-  <% @tasks.each do |task| %>
-    <li>
-      <%= link_to task.title, task %>
-      <%= "優先度: #{task.priority_i18n}" if task.priority.present?%>
-      <%= "状態: #{task.status_i18n}" %>
-      <span>作成: </span>
-      <%= task.created_at.to_s(:date) %>
-      <%= "終了期限: #{task.deadline.to_s(:date)}" if task.deadline.present? %>
-      <%= link_to '編集', edit_task_path(task) %>
-      <%= link_to '削除', task, method: :delete, data:  { confirm: '削除してよろしいですか？' } %>
-    </li>
-  <% end %>
-  <%= paginate @tasks %>
-</ul>
-
-<%= link_to '新規作成', new_task_path %>
+  <div id="content">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">状態</th>
+          <th scope="col">タイトル</th>
+          <th scope="col">
+            <% if request.fullpath.include?("sort_priority=asc") %>
+              <%= link_to tasks_path(sort_priority: 'desc'), class: 'sort-button' do %>
+                優先度
+                <i class="fas fa-sort-up ml-1"></i>
+              <% end %>
+            <% elsif request.fullpath.include?("sort_priority=desc") %>
+              <%= link_to tasks_path, class: 'sort-button' do %>
+                優先度
+                <i class="fas fa-sort-down ml-1"></i>
+              <% end %>
+            <% else %>
+              <%= link_to tasks_path(sort_priority: 'asc'), class: 'sort-button' do %>
+                優先度
+                <i class="fas fa-sort ml-1"></i>
+              <% end %>
+            <% end %>
+          </th>
+          <th scope="col">
+            <% if request.fullpath.include?("sort_created_at=asc") %>
+              <%= link_to tasks_path(sort_created_at: 'desc'), class: 'sort-button' do %>
+                作成日
+                <i class="fas fa-sort-up ml-1"></i>
+              <% end %>
+            <% elsif request.fullpath.include?("sort_created_at=desc") %>
+              <%= link_to tasks_path, class: 'sort-button' do %>
+                作成日
+                <i class="fas fa-sort-down ml-1"></i>
+              <% end %>
+            <% else %>
+              <%= link_to tasks_path(sort_created_at: 'asc'), class: 'sort-button' do %>
+                作成日
+                <i class="fas fa-sort ml-1"></i>
+              <% end %>
+            <% end %>
+          </th>
+          <th scope="col">
+            <% if request.fullpath.include?("sort_deadline=asc") %>
+              <%= link_to tasks_path(sort_deadline: 'desc'), class: 'sort-button' do %>
+                終了期限
+                <i class="fas fa-sort-up ml-1"></i>
+              <% end %>
+            <% elsif request.fullpath.include?("sort_deadline=desc") %>
+              <%= link_to tasks_path, class: 'sort-button' do %>
+                終了期限
+                <i class="fas fa-sort-down ml-1"></i>
+              <% end %>
+            <% else %>
+              <%= link_to tasks_path(sort_deadline: 'asc'), class: 'sort-button' do %>
+                終了期限
+                <i class="fas fa-sort ml-1"></i>
+              <% end %>
+            <% end %>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tasks.each do |task| %>
+          <tr>
+            <td><%= task.status_i18n %></td>
+            <td><%= link_to task.title, task %></td>
+            <td><%= task.priority_i18n if task.priority.present? %></td>
+            <td><%= task.created_at.to_s(:date) %></td>
+            <td><%= task.deadline.to_s(:date) if task.deadline.present? %></td>
+            <td>
+              <%= link_to '編集', edit_task_path(task) %> |
+              <%= link_to '削除', task, method: :delete, data:  { confirm: '削除してよろしいですか？' } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @tasks %>
+  </div>
+</div>
