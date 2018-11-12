@@ -1,3 +1,5 @@
+<% provide(:submit_button_text, '作成') %>
+
 <div class="container">
   <header>
     <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
@@ -31,6 +33,10 @@
       <% end %>
     </div>
   </header>
-  <h1>タスク作成</h1>
+  <div class="row">
+    <div class="mx-auto">
+      <h2>新規タスク</h2>
+    </div>
+  </div>
   <%= render 'form', task: @task %>
 </div>

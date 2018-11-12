@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.feature "Tasks", type: :feature do
   scenario "creates a new task" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task"
-    click_button "登録する"
+    click_button "作成"
 
     expect(page).to have_content "タスクを作成しました。"
     expect(page).to have_content "Test Task"
@@ -13,11 +13,11 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "creates a new task with a description" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task"
     fill_in "説明", with: "Trying out Capybara"
 
-    click_button "登録する"
+    click_button "作成"
     expect(page).to have_content "タスクを作成しました。"
     expect(page).to have_content "Test Task"
 
@@ -28,12 +28,12 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "creates a new task with a description and deadline" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/01/01"
 
-    click_button "登録する"
+    click_button "作成"
     expect(page).to have_content "タスクを作成しました。"
     expect(page).to have_content "Test Task"
     expect(page).to have_content "2050/01/01"
@@ -47,10 +47,10 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "show a task" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task"
     fill_in "説明", with: "Trying out Capybara"
-    click_button "登録する"
+    click_button "作成"
 
     click_link "Test Task"
     expect(page).to have_content "Test Task"
@@ -60,15 +60,15 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "edit a task" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task"
     fill_in "説明", with: "Trying out Capybara"
-    click_button "登録する"
+    click_button "作成"
 
     click_link "編集"
     fill_in "説明", with: "Change"
 
-    click_button "更新する"
+    click_button "更新"
     expect(page).to have_content "タスクを更新しました。"
 
     click_link "Test Task"
@@ -77,10 +77,10 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "delete a task" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task"
     fill_in "説明", with: "Trying out Capybara"
-    click_button "登録する"
+    click_button "作成"
 
     click_link "削除"
     expect(page).to have_content "タスクを削除しました。"
@@ -89,22 +89,22 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "tasks sorted in descending order of creation date" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task1"
     fill_in "説明", with: "Trying out Capybara"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task2"
     fill_in "説明", with: "Trying out Capybara"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task3"
     fill_in "説明", with: "Trying out Capybara"
-    click_button "登録する"
+    click_button "作成"
 
-    tasks = all('ul > li')
+    tasks = all('.tasks')
     expect(tasks[0]).to have_content('Test Task3')
     expect(tasks[1]).to have_content('Test Task2')
     expect(tasks[2]).to have_content('Test Task1')
@@ -112,24 +112,25 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "sort by created date descending button in descending order of created date" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task1"
     fill_in "説明", with: "Trying out Capybara"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task2"
     fill_in "説明", with: "Trying out Capybara"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task3"
     fill_in "説明", with: "Trying out Capybara"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "作成日:降順"
+    click_link "作成日"
+    click_link "作成日"
 
-    tasks = all('ul > li')
+    tasks = all('.tasks')
     expect(tasks[0]).to have_content('Test Task3')
     expect(tasks[1]).to have_content('Test Task2')
     expect(tasks[2]).to have_content('Test Task1')
@@ -137,27 +138,27 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "sort by deadline ascending button in ascending order of deadline" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task1"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/03/01"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task2"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/01/01"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task3"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/02/01"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "終了期限:昇順"
+    click_link "終了期限"
 
-    tasks = all('ul > li')
+    tasks = all('.tasks')
     expect(tasks[0]).to have_content('Test Task2')
     expect(tasks[1]).to have_content('Test Task3')
     expect(tasks[2]).to have_content('Test Task1')
@@ -165,30 +166,30 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "sort by priority ascending button in ascending order of priority" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task1"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/03/01"
     select "中", from: "task_priority"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task2"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/01/01"
     select "高", from: "task_priority"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task3"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/02/01"
     select "低", from: "task_priority"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "優先度:昇順"
+    click_link "優先度"
 
-    tasks = all('ul > li')
+    tasks = all('.tasks')
     expect(tasks[0]).to have_content('Test Task3')
     expect(tasks[1]).to have_content('Test Task1')
     expect(tasks[2]).to have_content('Test Task2')
@@ -196,30 +197,31 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "sort by priority descending button in descending order of priority" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task1"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/03/01"
     select "中", from: "task_priority"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task2"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/01/01"
     select "高", from: "task_priority"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task3"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/02/01"
     select "低", from: "task_priority"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "優先度:降順"
+    click_link "優先度"
+    click_link "優先度"
 
-    tasks = all('ul > li')
+    tasks = all('.tasks')
     expect(tasks[0]).to have_content('Test Task2')
     expect(tasks[1]).to have_content('Test Task1')
     expect(tasks[2]).to have_content('Test Task3')
@@ -227,23 +229,23 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "search by title" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task1"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/03/01"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task2"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/01/01"
-    click_button "登録する"
+    click_button "作成"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task3"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/02/01"
-    click_button "登録する"
+    click_button "作成"
 
     fill_in "search_title", with: "3"
     click_button "検索"
@@ -255,35 +257,35 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "search by status" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task1"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/03/01"
-    click_button "登録する"
+    click_button "作成"
     click_link "Test Task1"
     click_link "編集"
     select "進行中", from: "task_status"
-    click_button "更新する"
+    click_button "更新"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task2"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/03/01"
-    click_button "登録する"
+    click_button "作成"
     click_link "Test Task2"
     click_link "編集"
     select "完了", from: "task_status"
-    click_button "更新する"
+    click_button "更新"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task3"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/03/01"
-    click_button "登録する"
+    click_button "作成"
     click_link "Test Task3"
     click_link "編集"
     select "保留", from: "task_status"
-    click_button "更新する"
+    click_button "更新"
 
     select "進行中", from: "search_status"
     click_button "検索"
@@ -309,35 +311,35 @@ RSpec.feature "Tasks", type: :feature do
 
   scenario "search by priority" do
     visit root_path
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task1"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/03/01"
-    click_button "登録する"
+    click_button "作成"
     click_link "Test Task1"
     click_link "編集"
     select "高", from: "task_priority"
-    click_button "更新する"
+    click_button "更新"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task2"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/03/01"
-    click_button "登録する"
+    click_button "作成"
     click_link "Test Task2"
     click_link "編集"
     select "中", from: "task_priority"
-    click_button "更新する"
+    click_button "更新"
 
-    click_link "新規作成"
+    click_link "新規タスク"
     fill_in "タイトル", with: "Test Task3"
     fill_in "説明", with: "Trying out Capybara"
     fill_in "終了期限", with: "2050/03/01"
-    click_button "登録する"
+    click_button "作成"
     click_link "Test Task3"
     click_link "編集"
     select "低", from: "task_priority"
-    click_button "更新する"
+    click_button "更新"
 
     select "高", from: "search_priority"
     click_button "検索"

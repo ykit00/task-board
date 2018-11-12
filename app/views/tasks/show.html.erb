@@ -31,15 +31,20 @@
       <% end %>
     </div>
   </header>
-  <h1><%= @task.title %></h1>
-  <p>説明: <%= @task.description %></p>
-  <p>優先度: <%= @task.priority_i18n %></p>
-  <p>状態: <%= @task.status_i18n %></p>
 
-  <p>締切日: <%= @task.deadline %></p>
-  <p>作成日: <%= @task.created_at %></p>
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <h2><%= @task.title %></h2>
+      <p>説明: <%= @task.description %></p>
+      <p>優先度: <%= @task.priority_i18n %></p>
+      <p>状態: <%= @task.status_i18n %></p>
+
+      <p>締切日: <%= @task.deadline %></p>
+      <p>作成日: <%= @task.created_at %></p>
 
 
-  <%= link_to '編集', edit_task_path %>
-  <%= link_to '戻る', tasks_path %>
+      <%= link_to '編集', edit_task_path, class: 'btn btn-block btn-primary' %>
+      <%= link_to '戻る', tasks_path, class: 'btn btn-block btn-secondary' %>
+    </div>
+  </div>
 </div>

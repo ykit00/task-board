@@ -102,17 +102,17 @@
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="">
         <% @tasks.each do |task| %>
-          <tr>
-            <td><%= task.status_i18n %></td>
-            <td><%= link_to task.title, task %></td>
-            <td><%= task.priority_i18n if task.priority.present? %></td>
-            <td><%= task.created_at.to_s(:date) %></td>
-            <td><%= task.deadline.to_s(:date) if task.deadline.present? %></td>
-            <td>
-              <%= link_to '編集', edit_task_path(task) %> |
-              <%= link_to '削除', task, method: :delete, data:  { confirm: '削除してよろしいですか？' } %>
+          <tr class="tasks">
+            <td class="align-middle"><%= task.status_i18n %></td>
+            <td class="align-middle"><%= link_to task.title, task %></td>
+            <td class="align-middle"><%= task.priority_i18n if task.priority.present? %></td>
+            <td class="align-middle"><%= task.created_at.to_s(:date) %></td>
+            <td class="align-middle"><%= task.deadline.to_s(:date) if task.deadline.present? %></td>
+            <td class="align-middle">
+              <%= link_to '編集', edit_task_path(task), class: 'btn btn-primary' %>
+              <%= link_to '削除', task, method: :delete, data:  { confirm: '削除してよろしいですか？' }, class: 'btn btn-warning' %>
             </td>
           </tr>
         <% end %>
