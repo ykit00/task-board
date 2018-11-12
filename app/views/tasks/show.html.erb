@@ -41,6 +41,7 @@
 
       <p>締切日: <%= @task.deadline %></p>
       <p>作成日: <%= @task.created_at %></p>
+      <p>作成者: <%= @task.user.name %></p>
 
 
       <%= link_to '編集', edit_task_path, class: 'btn btn-block btn-primary' %>

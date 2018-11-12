@@ -1,4 +1,6 @@
 class Task < ApplicationRecord
+  belongs_to :user
+
   validates :title, presence: true, length: { maximum: 30 }
   validates :description, length: { maximum: 100 }
   validate :deadline_is_not_past
