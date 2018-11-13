@@ -19,6 +19,10 @@ class Task < ApplicationRecord
   scope :search_by_status, ->(status) { where status: status }
   scope :search_by_priority, ->(priority) { where priority: priority }
 
+  def user_tasks
+    Task.where("user_id = ?", current_user.id)
+  end
+
 
   private
 

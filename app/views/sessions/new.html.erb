@@ -1,0 +1,19 @@
+<div class="container">
+  <% flash.each do |message_type, message| %>
+    <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+  <% end %>
+  <div class="row">
+    <h2 class="mx-auto">ログイン</h2>
+  </div>
+  <div class="row">
+    <%= form_with(scope: :session, url: login_path, local: true, class: 'col-md-4 offset-md-4') do |f| %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control' %>
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+      <%= f.submit 'ログイン', class: 'btn btn-block btn-primary mt-3' %>
+      <%= link_to 'ユーザー登録', signup_path,  class: 'btn btn-block btn-secondary mt-3' %>
+    <% end %>
+  </div>
+</div>
