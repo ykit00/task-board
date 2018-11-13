@@ -18,7 +18,7 @@
       <%= f.select :priority, Task.priorities.keys.map { |k| [Task.priorities_i18n[k], k]}, include_blank: true %>
       <%= f.label :status %>
       <%= f.select :status, Task.statuses.keys.map { |k| [Task.statuses_i18n[k], k]} %>
-      <%= f.submit yield(:submit_button_text), class: 'btn btn-block btn-primary' %>
+      <%= f.submit yield(:submit_button_text), class: 'btn btn-block btn-primary mt-3' %>
       <%= link_to '戻る', :back, class: 'btn btn-block btn-secondary' %>
     <% end %>
 
