@@ -1,43 +1,12 @@
 <div class="container">
   <header>
-    <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
-      <a class="navbar-brand" href="/">TaskBoard</a>
-      <%= link_to '新規タスク', new_task_path, class: 'navbar-text' %>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-        </ul>
-        <div id="search-form" class="mb-2">
-          <%= form_tag tasks_path, method: 'get', class: 'form-inline my-2 my-lg-0' do %>
-            <%= label_tag :search_priority, "優先度", class: 'px-2' %>
-            <%= select_tag :search_priority, options_for_select(Task.priorities_i18n.invert, selected: params[:search_priority]), include_blank: true, class: 'form-control' %>
-            <%= label_tag :search_status, "状態", class: 'px-2'%>
-            <%= select_tag :search_status, options_for_select(Task.statuses_i18n.invert, selected: params[:search_status]), include_blank: true, class: 'form-control' %>
-            <%= text_field_tag :search_title, params[:search_title], placeholder: 'タイトル検索', class: 'form-control mr-sm-2 ml-2' %>
-            <%= submit_tag "検索", class: 'btn btn-outline-success my-2 my-sm-0' %>
-          <% end %>
-        </div>
-      </div>
-    </nav>
-
+    <%= render 'navbar' %>
     <div class="flash-message mb-5">
       <% flash.each do |message_type, message| %>
         <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
       <% end %>
     </div>
   </header>
-
-<!--  <p>作成日</p>-->
-<!--  <button><%#= link_to '作成日:昇順', tasks_path(sort_created_at: 'asc') %></button>-->
-  <!--  <button><%#= link_to '作成日:降順', tasks_path(sort_created_at: 'desc') %></button>-->
-  <!--  <p>終了期限</p>-->
-  <!--  <button><%#= link_to '終了期限:昇順', tasks_path(sort_deadline: 'asc') %></button>-->
-  <!--  <button><%#= link_to '終了期限:降順', tasks_path(sort_deadline: 'desc') %></button>-->
 
   <div id="content">
     <table class="table table-hover">
