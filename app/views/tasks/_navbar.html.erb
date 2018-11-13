@@ -1,0 +1,25 @@
+<nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
+  <a class="navbar-brand" href="/">TaskBoard</a>
+  <%= link_to '新規タスク', new_task_path, class: 'navbar-text' %>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
+      </li>
+    </ul>
+    <div id="search-form" class="mb-2">
+      <%= form_tag tasks_path, method: 'get', class: 'form-inline my-2 my-lg-0' do %>
+        <%= label_tag :search_priority, "優先度", class: 'px-2' %>
+        <%= select_tag :search_priority, options_for_select(Task.priorities_i18n.invert, selected: params[:search_priority]), include_blank: true, class: 'form-control' %>
+        <%= label_tag :search_status, "状態", class: 'px-2'%>
+        <%= select_tag :search_status, options_for_select(Task.statuses_i18n.invert, selected: params[:search_status]), include_blank: true, class: 'form-control' %>
+        <%= text_field_tag :search_title, params[:search_title], placeholder: 'タイトル検索', class: 'form-control mr-sm-2 ml-2' %>
+        <%= submit_tag "検索", class: 'btn btn-outline-success my-2 my-sm-0' %>
+        <a class="btn btn-outline-secondary mx-2" href="/">リセット</a>
+      <% end %>
+    </div>
+  </div>
+</nav>

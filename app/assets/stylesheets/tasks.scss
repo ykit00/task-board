@@ -1,3 +1,12 @@
-// Place all the styles related to the tasks controller here.
-// They will automatically be included in application.css.scss.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+body {
+  padding-top: 70px;
+}
+
+//tasks#index
+.sort-button {
+  color: #212529;
+  &:hover {
+    color: #212529;
+    text-decoration: none;
+  }
+}

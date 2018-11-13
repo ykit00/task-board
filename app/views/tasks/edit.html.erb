@@ -1,4 +1,18 @@
-<h1>タスク編集</h1>
-<%= render 'form', task: @task %>
+<% provide(:submit_button_text, '更新') %>
 
-<%= link_to '戻る', tasks_path %>
+<div class="container">
+  <header>
+    <%= render 'navbar' %>
+    <div class="flash-message mb-5">
+      <% flash.each do |message_type, message| %>
+        <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+      <% end %>
+    </div>
+  </header>
+  <div class="row">
+    <div class="mx-auto">
+      <h2>タスク編集</h2>
+    </div>
+  </div>
+  <%= render 'form', task: @task %>
+</div>
