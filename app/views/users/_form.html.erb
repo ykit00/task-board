@@ -11,6 +11,10 @@
     <%= f.label :password_confirmation %>
     <%= f.password_field :password_confirmation, class: 'form-control' %>
     <%= f.submit yield(:submit_button_text), class: 'btn btn-block btn-primary mt-3' %>
-    <%= link_to '戻る', login_path, class: 'btn btn-block btn-secondary' %>
+    <% if logged_in? %>
+      <%= link_to '戻る', user_path, class: 'btn btn-block btn-secondary' %>
+    <% else %>
+      <%= link_to '戻る', login_path, class: 'btn btn-block btn-secondary' %>
+    <% end %>
   <% end %>
 </div>

@@ -20,7 +20,8 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     if @task.save
-      redirect_to tasks_path, notice: 'タスクを作成しました。'
+      flash[:success] = "タスクを作成しました"
+      redirect_to tasks_path
     else
       render :new
     end
@@ -28,7 +29,8 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      redirect_to tasks_path, notice: 'タスクを更新しました。'
+      flash[:success] = "タスクを更新しました"
+      redirect_to tasks_path
     else
       render :edit
     end
@@ -50,19 +52,19 @@ class TasksController < ApplicationController
 
     def sort_tasks
       if params[:sort_deadline].present? && params[:sort_deadline] == "asc"
-        Task.all.sort_by_deadline_asc
+        Task.user_tasks(current_user.id).sort_by_deadline_asc
       elsif params[:sort_deadline].present? && params[:sort_deadline] == "desc"
-        Task.all.sort_by_deadline_desc
+        Task.user_tasks(current_user.id).sort_by_deadline_desc
       elsif params[:sort_created_at].present? && params[:sort_created_at] == "asc"
-        Task.all.sort_by_created_at_asc
+        Task.user_tasks(current_user.id).sort_by_created_at_asc
       elsif params[:sort_created_at].present? && params[:sort_created_at] == "desc"
-        Task.all.sort_by_created_at_desc
+        Task.user_tasks(current_user.id).sort_by_created_at_desc
       elsif params[:sort_priority].present? && params[:sort_priority] == "asc"
-        Task.all.sort_by_priority_asc
+        Task.user_tasks(current_user.id).sort_by_priority_asc
       elsif params[:sort_priority].present? && params[:sort_priority] == "desc"
-        Task.all.sort_by_priority_desc
+        Task.user_tasks(current_user.id).sort_by_priority_desc
       else
-        Task.all.sort_by_created_at_desc
+        Task.user_tasks(current_user.id).sort_by_created_at_desc
       end
     end
 
