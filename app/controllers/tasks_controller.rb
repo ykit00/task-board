@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_user
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
   def index
     @tasks = sort_tasks
     search_tasks
@@ -20,7 +21,7 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     if @task.save
-      flash[:success] = "タスクを作成しました"
+      flash[:success] = "タスクを作成しました。"
       redirect_to tasks_path
     else
       render :new
@@ -29,7 +30,7 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      flash[:success] = "タスクを更新しました"
+      flash[:success] = "タスクを更新しました。"
       redirect_to tasks_path
     else
       render :edit
@@ -48,6 +49,11 @@ class TasksController < ApplicationController
 
     def task_params
       params.require(:task).permit(:title, :description, :deadline, :status, :priority)
+    end
+
+    def correct_user
+      @user = Task.find(params[:id]).user_id
+      redirect_to tasks_path unless current_user?(@user)
     end
 
     def sort_tasks

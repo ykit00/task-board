@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_user, except: [:new, :create]
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
 
   def index
     @users = User.all.page params[:page]
@@ -49,5 +50,10 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to tasks_path unless current_user?(@user)
     end
 end
