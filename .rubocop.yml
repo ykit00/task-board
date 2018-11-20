@@ -1,0 +1,19 @@
+Rails:
+  Enabled: true
+
+# 日本語でのコメントを許可
+AsciiComments:
+  Enabled: false
+
+# private以下のインデントを下げる
+Layout/IndentationConsistency:
+  EnforcedStyle: rails
+
+AllCops:
+  Exclude:
+    - vendor/bundle/**/*
+    - bin/*
+    - db/**/*
+    - config/**/*
+    - Gemfile
+    - tmp/**/*
