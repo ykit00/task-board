@@ -1,11 +1,7 @@
 <div class="container">
   <header>
     <%= render 'navbar' %>
-    <div class="flash-message mb-5">
-      <% flash.each do |message_type, message| %>
-        <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
-      <% end %>
-    </div>
+    <%= render 'shared/flash_message' %>
   </header>
 
   <div class="row">

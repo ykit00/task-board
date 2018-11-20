@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  skip_before_action :login_required
+
   def new
   end
 
@@ -16,6 +18,6 @@ class SessionsController < ApplicationController
 
   def destroy
     log_out if logged_in?
-    redirect_to root_url
+    redirect_to login_path
   end
 end

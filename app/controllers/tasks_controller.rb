@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
+  # TODO: SearchとSortを同時に行えるようにする
   def index
     @tasks = Task.user_tasks(current_user.id)
     @tasks = @tasks.sort_tasks(sort_column_params, sort_direction_params) if params[:sort_column] && params[:sort_direction]
@@ -21,7 +22,7 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     if @task.save
-      flash[:success] = "タスクを作成しました。"
+      flash[:success] = 'タスクを作成しました。'
       redirect_to tasks_path
     else
       render :new
@@ -30,7 +31,7 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      flash[:success] = "タスクを更新しました。"
+      flash[:success] = 'タスクを更新しました。'
       redirect_to tasks_path
     else
       render :edit
@@ -39,7 +40,8 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
-    redirect_to tasks_path, notice: 'タスクを削除しました。'
+    flash[:success] = 'タスクを削除しました。'
+    redirect_to tasks_path
   end
 
   private
