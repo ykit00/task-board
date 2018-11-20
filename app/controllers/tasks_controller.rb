@@ -1,7 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_user
-  before_action :correct_user, only: [:show, :edit, :update, :destroy]
   def index
     @tasks = sort_tasks
     search_tasks
@@ -44,16 +43,11 @@ class TasksController < ApplicationController
 
   private
     def set_task
-      @task = Task.find(params[:id])
+      @task = current_user.tasks.find(params[:id])
     end
 
     def task_params
       params.require(:task).permit(:title, :description, :deadline, :status, :priority)
-    end
-
-    def correct_user
-      @user = Task.find(params[:id]).user_id
-      redirect_to tasks_path unless current_user?(@user)
     end
 
     def sort_tasks
@@ -79,5 +73,4 @@ class TasksController < ApplicationController
       @tasks = @tasks.search_by_status params[:search_status] if params[:search_status].present?
       @tasks = @tasks.search_by_priority params[:search_priority] if params[:search_priority].present?
     end
-
 end

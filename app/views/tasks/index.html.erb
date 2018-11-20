@@ -75,7 +75,7 @@
         <% @tasks.each do |task| %>
           <tr class="tasks">
             <td class="align-middle"><%= task.status_i18n %></td>
-            <td class="align-middle"><%= link_to task.title, task %></td>
+            <td class="align-middle"><%= link_to task.title, task, id: "task-#{task.id}" %></td>
             <td class="align-middle"><%= task.priority_i18n if task.priority.present? %></td>
             <td class="align-middle"><%= task.created_at.to_s(:date) %></td>
             <td class="align-middle"><%= task.deadline.to_s(:date) if task.deadline.present? %></td>
