@@ -5,3 +5,14 @@
 
   Task.create!(title: title, status: status)
 end
+
+# Users
+User.create!(name: "John Doe",
+             email: "johndoe@example.com",
+             password: "nicesense",
+             password_confirmation: "nicesense") if Rails.env.development?
+
+User.create!(name: "test user",
+             email: "testuser@example.com",
+             password: "password",
+             password_confirmation: "password") if Rails.env.development?
