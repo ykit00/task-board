@@ -15,54 +15,54 @@
           <th scope="col">状態</th>
           <th scope="col">タイトル</th>
           <th scope="col">
-            <% if request.fullpath.include?("sort_priority=asc") %>
-              <%= link_to tasks_path(sort_priority: 'desc'), class: 'sort-button' do %>
+            <% if request.fullpath.include?("sort_column=priority&sort_direction=asc") %>
+              <%= link_to tasks_path(sort_column: 'priority', sort_direction: 'desc'), class: 'sort-button' do %>
                 優先度
                 <i class="fas fa-sort-up ml-1"></i>
               <% end %>
-            <% elsif request.fullpath.include?("sort_priority=desc") %>
+            <% elsif request.fullpath.include?("sort_column=priority&sort_direction=desc") %>
               <%= link_to tasks_path, class: 'sort-button' do %>
                 優先度
                 <i class="fas fa-sort-down ml-1"></i>
               <% end %>
             <% else %>
-              <%= link_to tasks_path(sort_priority: 'asc'), class: 'sort-button' do %>
+              <%= link_to tasks_path(sort_column: 'priority', sort_direction: 'asc'), class: 'sort-button' do %>
                 優先度
                 <i class="fas fa-sort ml-1"></i>
               <% end %>
             <% end %>
           </th>
           <th scope="col">
-            <% if request.fullpath.include?("sort_created_at=asc") %>
-              <%= link_to tasks_path(sort_created_at: 'desc'), class: 'sort-button' do %>
+            <% if request.fullpath.include?("sort_column=created_at&sort_direction=asc") %>
+              <%= link_to tasks_path(sort_column: 'created_at', sort_direction: 'desc'), class: 'sort-button' do %>
                 作成日
                 <i class="fas fa-sort-up ml-1"></i>
               <% end %>
-            <% elsif request.fullpath.include?("sort_created_at=desc") %>
+            <% elsif request.fullpath.include?("sort_column=created_at&sort_direction=desc") %>
               <%= link_to tasks_path, class: 'sort-button' do %>
                 作成日
                 <i class="fas fa-sort-down ml-1"></i>
               <% end %>
             <% else %>
-              <%= link_to tasks_path(sort_created_at: 'asc'), class: 'sort-button' do %>
+              <%= link_to tasks_path(sort_column: 'created_at', sort_direction: 'asc'), class: 'sort-button' do %>
                 作成日
                 <i class="fas fa-sort ml-1"></i>
               <% end %>
             <% end %>
           </th>
           <th scope="col">
-            <% if request.fullpath.include?("sort_deadline=asc") %>
-              <%= link_to tasks_path(sort_deadline: 'desc'), class: 'sort-button' do %>
+            <% if request.fullpath.include?("sort_column=deadline&sort_direction=asc") %>
+              <%= link_to tasks_path(sort_column: 'deadline', sort_direction: 'desc'), class: 'sort-button' do %>
                 終了期限
                 <i class="fas fa-sort-up ml-1"></i>
               <% end %>
-            <% elsif request.fullpath.include?("sort_deadline=desc") %>
+            <% elsif request.fullpath.include?("sort_column=deadline&sort_direction=desc") %>
               <%= link_to tasks_path, class: 'sort-button' do %>
                 終了期限
                 <i class="fas fa-sort-down ml-1"></i>
               <% end %>
             <% else %>
-              <%= link_to tasks_path(sort_deadline: 'asc'), class: 'sort-button' do %>
+              <%= link_to tasks_path(sort_column: 'deadline', sort_direction: 'asc'), class: 'sort-button' do %>
                 終了期限
                 <i class="fas fa-sort ml-1"></i>
               <% end %>

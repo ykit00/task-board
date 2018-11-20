@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in_user, except: [:new, :create]
+  skip_before_action :login_required, except: [:new, :create]
 
   def index
     @users = User.all.page params[:page]

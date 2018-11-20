@@ -1,8 +1,9 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in_user
+
   def index
-    @tasks = sort_tasks
+    @tasks = Task.user_tasks(current_user.id)
+    @tasks = @tasks.sort_tasks(sort_column_params, sort_direction_params) if params[:sort_column] && params[:sort_direction]
     search_tasks
     @tasks = @tasks.page params[:page]
   end
@@ -42,6 +43,7 @@ class TasksController < ApplicationController
   end
 
   private
+
     def set_task
       @task = current_user.tasks.find(params[:id])
     end
@@ -50,27 +52,17 @@ class TasksController < ApplicationController
       params.require(:task).permit(:title, :description, :deadline, :status, :priority)
     end
 
-    def sort_tasks
-      if params[:sort_deadline].present? && params[:sort_deadline] == "asc"
-        Task.user_tasks(current_user.id).sort_by_deadline_asc
-      elsif params[:sort_deadline].present? && params[:sort_deadline] == "desc"
-        Task.user_tasks(current_user.id).sort_by_deadline_desc
-      elsif params[:sort_created_at].present? && params[:sort_created_at] == "asc"
-        Task.user_tasks(current_user.id).sort_by_created_at_asc
-      elsif params[:sort_created_at].present? && params[:sort_created_at] == "desc"
-        Task.user_tasks(current_user.id).sort_by_created_at_desc
-      elsif params[:sort_priority].present? && params[:sort_priority] == "asc"
-        Task.user_tasks(current_user.id).sort_by_priority_asc
-      elsif params[:sort_priority].present? && params[:sort_priority] == "desc"
-        Task.user_tasks(current_user.id).sort_by_priority_desc
-      else
-        Task.user_tasks(current_user.id).sort_by_created_at_desc
-      end
+    def sort_column_params
+      Task.column_names.include?(params[:sort_column]) ? params[:sort_column] : nil
+    end
+
+    def sort_direction_params
+      %w(asc desc).include?(params[:sort_direction]) ? params[:sort_direction] : nil
     end
 
     def search_tasks
-      @tasks = @tasks.search_by_title params[:search_title] if params[:search_title].present?
-      @tasks = @tasks.search_by_status params[:search_status] if params[:search_status].present?
-      @tasks = @tasks.search_by_priority params[:search_priority] if params[:search_priority].present?
+      @tasks = @tasks.search_tasks('title', params[:search_title]) if params[:search_title].present?
+      @tasks = @tasks.search_tasks('status', params[:search_status]) if params[:search_status].present?
+      @tasks = @tasks.search_tasks('priority', params[:search_priority]) if params[:search_priority].present?
     end
 end

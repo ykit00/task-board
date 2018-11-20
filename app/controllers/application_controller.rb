@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
   include SessionsHelper
+  before_action :login_required
 
   private
 
-    def logged_in_user
-      return if logged_in?
-      redirect_to login_url
+    def login_required
+      redirect_to login_url unless logged_in?
     end
 end
