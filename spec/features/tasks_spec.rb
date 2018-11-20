@@ -391,7 +391,6 @@ RSpec.feature "Tasks", type: :feature do
       visit tasks_path
       expect(page).to_not have_content "新規タスク"
       expect(page).to have_content "ログイン"
-      expect(page).to have_content "ログインしてください"
     end
   end
 end
