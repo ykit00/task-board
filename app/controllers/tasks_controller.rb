@@ -3,7 +3,7 @@ class TasksController < ApplicationController
 
   # TODO: SearchとSortを同時に行えるようにする
   def index
-    @tasks = Task.user_tasks(current_user.id)
+    @tasks = current_user.tasks
     @tasks = @tasks.sort_tasks(sort_column_params, sort_direction_params) if params[:sort_column] && params[:sort_direction]
     search_tasks
     @tasks = @tasks.page params[:page]
