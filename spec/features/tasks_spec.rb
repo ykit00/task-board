@@ -5,7 +5,7 @@ RSpec.feature "Tasks", type: :feature do
   let(:user) { FactoryBot.create(:user) }
 
   scenario "user logs in" do
-    visit root_path
+    visit login_path
     fill_in "session_email", with: user.email
     fill_in "session_password", with: user.password
     click_button "ログイン"
@@ -17,7 +17,7 @@ RSpec.feature "Tasks", type: :feature do
   context "logged in" do
 
     before do
-      visit root_path
+      visit login_path
       fill_in "session_email", with: user.email
       fill_in "session_password", with: user.password
       click_button "ログイン"

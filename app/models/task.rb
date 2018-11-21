@@ -9,7 +9,7 @@ class Task < ApplicationRecord
   enum priority: { low: 1, middle: 2, high: 3 }
 
   def self.sort_tasks(column, direction)
-    return self unless column && direction
+    return order(created_at: :desc) unless column && direction
     order(column + ' ' + direction + ' NULLS LAST')
   end
 

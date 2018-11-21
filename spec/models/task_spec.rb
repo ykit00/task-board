@@ -37,10 +37,10 @@ describe Task do
     task2 = Task.create(title: "task2", user_id: user.id)
     task3 = Task.create(title: "task3", user_id: user.id)
 
-    expect(Task.search_by_title("task1")).to include(task1)
-    expect(Task.search_by_title("task1")).to_not include(task2, task3)
-    expect(Task.search_by_title("task")).to include(task1, task2, task3)
-    expect(Task.search_by_title("menu")).to_not include(task1, task2, task3)
+    expect(Task.search_tasks("title", "task1")).to include(task1)
+    expect(Task.search_tasks("title", "task1")).to_not include(task2, task3)
+    expect(Task.search_tasks("title", "task")).to include(task1, task2, task3)
+    expect(Task.search_tasks("title", "menu")).to_not include(task1, task2, task3)
 
   end
 end
