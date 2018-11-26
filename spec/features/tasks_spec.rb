@@ -1,26 +1,25 @@
 require 'rails_helper'
 
+
 RSpec.feature "Tasks", type: :feature do
 
-  let(:user) { FactoryBot.create(:user) }
+  let(:user_a) { FactoryBot.create(:user) }
+  let(:user_b) { FactoryBot.create(:user) }
 
   scenario "user logs in" do
     visit login_path
-    fill_in "session_email", with: user.email
-    fill_in "session_password", with: user.password
+    fill_in "session_email", with: user_a.email
+    fill_in "session_password", with: user_a.password
     click_button "ログイン"
 
     expect(page).to have_content "ログインしました。"
-    expect(page).to have_content user.name
+    expect(page).to have_content user_a.name
   end
 
   context "logged in" do
 
     before do
-      visit login_path
-      fill_in "session_email", with: user.email
-      fill_in "session_password", with: user.password
-      click_button "ログイン"
+      login(user_a)
     end
 
     scenario "creates a new task" do
@@ -384,6 +383,24 @@ RSpec.feature "Tasks", type: :feature do
       expect(page).to_not have_content "Test Task1"
       expect(page).to_not have_content "Test Task2"
     end
+
+    scenario "not change the task created by another user" do
+      visit tasks_path
+      click_link "新規タスク"
+      fill_in "タイトル", with: "Test Task1"
+      fill_in "説明", with: "Trying out Capybara"
+      fill_in "終了期限", with: "2050/03/01"
+      select "中", from: "task_priority"
+      click_button "作成"
+
+      logout(user_a)
+      login(user_b)
+
+      visit tasks_path
+      expect(page).to_not have_content "Test Task1"
+      visit "tasks/#{user_a.tasks.last.id}"
+      expect(page.status_code).to eq 404
+    end
   end
 
   context "logged out" do
@@ -391,6 +408,14 @@ RSpec.feature "Tasks", type: :feature do
       visit tasks_path
       expect(page).to_not have_content "新規タスク"
       expect(page).to have_content "ログイン"
+    end
+
+    scenario "edit tasks" do
+      visit tasks_path
+      expect(page).to_not have_content "編集"
+      expect(page).to_not have_content "削除"
+      expect(page).to have_content "ログイン"
+      expect(page).to have_content "ユーザー登録"
     end
   end
 end
