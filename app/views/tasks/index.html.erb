@@ -4,114 +4,20 @@
     <%= render 'shared/flash_message' %>
   </header>
 
-  <%# HACK: 冗長なので共通化して切り出したい %>
   <div id="content">
-    <table class="table table-hover">
+    <table class="table table-hover tasks-table">
       <thead>
         <tr>
           <th scope="col">状態</th>
           <th scope="col">タイトル</th>
           <th scope="col">
-            <% if request.fullpath.include?("sort_column=priority&sort_direction=asc") %>
-              <%= link_to tasks_path(
-                              sort_column: 'priority',
-                              sort_direction: 'desc',
-                              search_priority: params[:search_priority],
-                              search_status: params[:search_status],
-                              search_title: params[:search_title]
-                          ), class: 'sort-button' do %>
-                優先度
-                <i class="fas fa-sort-up ml-1"></i>
-              <% end %>
-            <% elsif request.fullpath.include?("sort_column=priority&sort_direction=desc") %>
-              <%= link_to tasks_path(
-                              search_priority: params[:search_priority],
-                              search_status: params[:search_status],
-                              search_title: params[:search_title]
-                          ), class: 'sort-button' do %>
-                優先度
-                <i class="fas fa-sort-down ml-1"></i>
-              <% end %>
-            <% else %>
-              <%= link_to tasks_path(
-                              sort_column: 'priority',
-                              sort_direction: 'asc',
-                              search_priority: params[:search_priority],
-                              search_status: params[:search_status],
-                              search_title: params[:search_title]
-                          ), class: 'sort-button' do %>
-                優先度
-                <i class="fas fa-sort ml-1"></i>
-              <% end %>
-            <% end %>
+            <%= render 'sort_button', set_sort_button_attr('優先度', 'priority') %>
           </th>
           <th scope="col">
-            <% if request.fullpath.include?("sort_column=created_at&sort_direction=asc") %>
-              <%= link_to tasks_path(
-                              sort_column: 'created_at',
-                              sort_direction: 'desc',
-                              search_priority: params[:search_priority],
-                              search_status: params[:search_status],
-                              search_title: params[:search_title]
-                          ), class: 'sort-button' do %>
-                作成日
-                <i class="fas fa-sort-up ml-1"></i>
-              <% end %>
-            <% elsif request.fullpath.include?("sort_column=created_at&sort_direction=desc") %>
-              <%= link_to tasks_path(
-                              search_priority: params[:search_priority],
-                              search_status: params[:search_status],
-                              search_title: params[:search_title]
-                          ), class: 'sort-button' do %>
-                作成日
-                <i class="fas fa-sort-down ml-1"></i>
-              <% end %>
-            <% else %>
-              <%= link_to tasks_path(
-                              sort_column: 'created_at',
-                              sort_direction: 'asc',
-                              search_priority: params[:search_priority],
-                              search_status: params[:search_status],
-                              search_title: params[:search_title]
-                          ), class: 'sort-button' do %>
-                作成日
-                <i class="fas fa-sort ml-1"></i>
-              <% end %>
-            <% end %>
+            <%= render 'sort_button', set_sort_button_attr('作成日', 'created_at') %>
           </th>
           <th scope="col">
-            <% if request.fullpath.include?("sort_column=deadline&sort_direction=asc") %>
-              <%= link_to tasks_path(
-                              sort_column: 'deadline',
-                              sort_direction: 'desc',
-                              search_priority: params[:search_priority],
-                              search_status: params[:search_status],
-                              search_title: params[:search_title]
-                          ), class: 'sort-button' do %>
-                終了期限
-                <i class="fas fa-sort-up ml-1"></i>
-              <% end %>
-            <% elsif request.fullpath.include?("sort_column=deadline&sort_direction=desc") %>
-              <%= link_to tasks_path(
-                              search_priority: params[:search_priority],
-                              search_status: params[:search_status],
-                              search_title: params[:search_title]
-                          ), class: 'sort-button' do %>
-                終了期限
-                <i class="fas fa-sort-down ml-1"></i>
-              <% end %>
-            <% else %>
-              <%= link_to tasks_path(
-                              sort_column: 'deadline',
-                              sort_direction: 'asc',
-                              search_priority: params[:search_priority],
-                              search_status: params[:search_status],
-                              search_title: params[:search_title]
-                          ), class: 'sort-button' do %>
-                終了期限
-                <i class="fas fa-sort ml-1"></i>
-              <% end %>
-            <% end %>
+            <%= render 'sort_button', set_sort_button_attr('終了期限', 'deadline') %>
           </th>
           <th scope="col"></th>
         </tr>

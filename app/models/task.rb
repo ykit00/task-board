@@ -26,22 +26,9 @@ class Task < ApplicationRecord
     end
   end
 
-  def self.user_tasks(user_id)
-    where("user_id = ?", user_id)
-  end
-
   private
 
     def deadline_is_not_past
       errors.add(:deadline, 'は過去の日時を設定できません。') if deadline.present? && deadline.past?
     end
-
-    def sort_direction
-      %w(asc desc).include?(params[:sort_direction]) ? params[:sort_direction] : nil
-    end
-
-    def sort_column
-      Task.column_names.include?(params[:sort_column]) ? params[:sort_column] : nil
-    end
-
 end

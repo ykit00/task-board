@@ -1,0 +1,16 @@
+<%= link_to tasks_path(sort_column: column,
+                      sort_direction: direction,
+                      search_priority: params[:search_priority],
+                      search_status: params[:search_status],
+                      search_title: params[:search_title]), class: 'sort-button' do %>
+  <%= "#{title} " %>
+<% end %>
+
+<% case direction %>
+<% when 'desc' %>
+  <i class="fas fa-sort ml-1"></i>
+<% when 'asc' %>
+  <i class="fas fa-sort-down ml-1"></i>
+<% when nil %>
+  <i class="fas fa-sort-up ml-1"></i>
+<% end %>

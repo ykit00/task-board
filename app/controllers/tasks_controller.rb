@@ -1,10 +1,9 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
-  # TODO: SearchとSortを同時に行えるようにする
   def index
     @tasks = current_user.tasks
-    @tasks = @tasks.sort_tasks(sort_column_params, sort_direction_params)
+    @tasks = @tasks.sort_tasks(params[:sort_column], params[:sort_direction])
     search_tasks
     @tasks = @tasks.page params[:page]
   end
@@ -52,14 +51,6 @@ class TasksController < ApplicationController
 
     def task_params
       params.require(:task).permit(:title, :description, :deadline, :status, :priority)
-    end
-
-    def sort_column_params
-      Task.column_names.include?(params[:sort_column]) ? params[:sort_column] : nil
-    end
-
-    def sort_direction_params
-      %w(asc desc).include?(params[:sort_direction]) ? params[:sort_direction] : nil
     end
 
     def search_tasks
