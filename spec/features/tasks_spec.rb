@@ -131,7 +131,7 @@ RSpec.feature "Tasks", type: :feature do
       expect(tasks[2]).to have_content('Test Task1')
     end
 
-    scenario "sort by created date descending button in descending order of created date" do
+    scenario "sort by created_at" do
       visit tasks_path
       click_link "新規タスク"
       fill_in "タイトル", with: "Test Task1"
@@ -148,7 +148,25 @@ RSpec.feature "Tasks", type: :feature do
       fill_in "説明", with: "Trying out Capybara"
       click_button "作成"
 
+      tasks = all('.tasks')
+      expect(tasks[0]).to have_content('Test Task3')
+      expect(tasks[1]).to have_content('Test Task2')
+      expect(tasks[2]).to have_content('Test Task1')
+
       click_link "作成日"
+
+      tasks = all('.tasks')
+      expect(tasks[0]).to have_content('Test Task3')
+      expect(tasks[1]).to have_content('Test Task2')
+      expect(tasks[2]).to have_content('Test Task1')
+
+      click_link "作成日"
+
+      tasks = all('.tasks')
+      expect(tasks[0]).to have_content('Test Task1')
+      expect(tasks[1]).to have_content('Test Task2')
+      expect(tasks[2]).to have_content('Test Task3')
+
       click_link "作成日"
 
       tasks = all('.tasks')
@@ -157,95 +175,101 @@ RSpec.feature "Tasks", type: :feature do
       expect(tasks[2]).to have_content('Test Task1')
     end
 
-    scenario "sort by deadline ascending button in ascending order of deadline" do
+    scenario "sort by deadline" do
       visit tasks_path
       click_link "新規タスク"
-      fill_in "タイトル", with: "Test Task1"
+      fill_in "タイトル", with: "Latest date"
       fill_in "説明", with: "Trying out Capybara"
       fill_in "終了期限", with: "2050/03/01"
       click_button "作成"
 
       click_link "新規タスク"
-      fill_in "タイトル", with: "Test Task2"
+      fill_in "タイトル", with: "Earliest date"
       fill_in "説明", with: "Trying out Capybara"
       fill_in "終了期限", with: "2050/01/01"
       click_button "作成"
 
       click_link "新規タスク"
-      fill_in "タイトル", with: "Test Task3"
+      fill_in "タイトル", with: "Between date"
       fill_in "説明", with: "Trying out Capybara"
       fill_in "終了期限", with: "2050/02/01"
       click_button "作成"
+
+      tasks = all('.tasks')
+      expect(tasks[0]).to have_content('Between date')
+      expect(tasks[1]).to have_content('Earliest date')
+      expect(tasks[2]).to have_content('Latest date')
 
       click_link "終了期限"
 
       tasks = all('.tasks')
-      expect(tasks[0]).to have_content('Test Task2')
-      expect(tasks[1]).to have_content('Test Task3')
-      expect(tasks[2]).to have_content('Test Task1')
+      expect(tasks[0]).to have_content('Latest date')
+      expect(tasks[1]).to have_content('Between date')
+      expect(tasks[2]).to have_content('Earliest date')
+
+      click_link "終了期限"
+
+      tasks = all('.tasks')
+      expect(tasks[0]).to have_content('Earliest date')
+      expect(tasks[1]).to have_content('Between date')
+      expect(tasks[2]).to have_content('Latest date')
+
+      click_link "終了期限"
+
+      tasks = all('.tasks')
+      expect(tasks[0]).to have_content('Between date')
+      expect(tasks[1]).to have_content('Earliest date')
+      expect(tasks[2]).to have_content('Latest date')
     end
 
-    scenario "sort by priority ascending button in ascending order of priority" do
+    scenario "sort by priority" do
       visit tasks_path
       click_link "新規タスク"
-      fill_in "タイトル", with: "Test Task1"
+      fill_in "タイトル", with: "Middle priority"
       fill_in "説明", with: "Trying out Capybara"
       fill_in "終了期限", with: "2050/03/01"
       select "中", from: "task_priority"
       click_button "作成"
 
       click_link "新規タスク"
-      fill_in "タイトル", with: "Test Task2"
+      fill_in "タイトル", with: "High priority"
       fill_in "説明", with: "Trying out Capybara"
       fill_in "終了期限", with: "2050/01/01"
       select "高", from: "task_priority"
       click_button "作成"
 
       click_link "新規タスク"
-      fill_in "タイトル", with: "Test Task3"
+      fill_in "タイトル", with: "Low priority"
       fill_in "説明", with: "Trying out Capybara"
       fill_in "終了期限", with: "2050/02/01"
       select "低", from: "task_priority"
       click_button "作成"
 
+      tasks = all('.tasks')
+      expect(tasks[0]).to have_content('Low priority')
+      expect(tasks[1]).to have_content('High priority')
+      expect(tasks[2]).to have_content('Middle priority')
+
       click_link "優先度"
 
       tasks = all('.tasks')
-      expect(tasks[0]).to have_content('Test Task3')
-      expect(tasks[1]).to have_content('Test Task1')
-      expect(tasks[2]).to have_content('Test Task2')
-    end
+      expect(tasks[0]).to have_content('High priority')
+      expect(tasks[1]).to have_content('Middle priority')
+      expect(tasks[2]).to have_content('Low priority')
 
-    scenario "sort by priority descending button in descending order of priority" do
-      visit tasks_path
-      click_link "新規タスク"
-      fill_in "タイトル", with: "Test Task1"
-      fill_in "説明", with: "Trying out Capybara"
-      fill_in "終了期限", with: "2050/03/01"
-      select "中", from: "task_priority"
-      click_button "作成"
-
-      click_link "新規タスク"
-      fill_in "タイトル", with: "Test Task2"
-      fill_in "説明", with: "Trying out Capybara"
-      fill_in "終了期限", with: "2050/01/01"
-      select "高", from: "task_priority"
-      click_button "作成"
-
-      click_link "新規タスク"
-      fill_in "タイトル", with: "Test Task3"
-      fill_in "説明", with: "Trying out Capybara"
-      fill_in "終了期限", with: "2050/02/01"
-      select "低", from: "task_priority"
-      click_button "作成"
-
-      click_link "優先度"
       click_link "優先度"
 
       tasks = all('.tasks')
-      expect(tasks[0]).to have_content('Test Task2')
-      expect(tasks[1]).to have_content('Test Task1')
-      expect(tasks[2]).to have_content('Test Task3')
+      expect(tasks[0]).to have_content('Low priority')
+      expect(tasks[1]).to have_content('Middle priority')
+      expect(tasks[2]).to have_content('High priority')
+
+      click_link "優先度"
+
+      tasks = all('.tasks')
+      expect(tasks[0]).to have_content('Low priority')
+      expect(tasks[1]).to have_content('High priority')
+      expect(tasks[2]).to have_content('Middle priority')
     end
 
     scenario "search by title" do
@@ -382,6 +406,78 @@ RSpec.feature "Tasks", type: :feature do
       expect(page).to have_content "Test Task3"
       expect(page).to_not have_content "Test Task1"
       expect(page).to_not have_content "Test Task2"
+    end
+
+    scenario "search and sort" do
+      visit tasks_path
+      click_link "新規タスク"
+      fill_in "タイトル", with: "Test Task1"
+      fill_in "説明", with: "Trying out Capybara"
+      fill_in "終了期限", with: "2050/03/01"
+      select "中", from: "task_priority"
+      click_button "作成"
+
+      click_link "新規タスク"
+      fill_in "タイトル", with: "Test Task2"
+      fill_in "説明", with: "Trying out Capybara"
+      fill_in "終了期限", with: "2050/01/01"
+      click_button "作成"
+
+      click_link "新規タスク"
+      fill_in "タイトル", with: "Test Task3"
+      fill_in "説明", with: "Trying out Capybara"
+      fill_in "終了期限", with: "2050/02/01"
+      click_button "作成"
+
+      click_link "新規タスク"
+      fill_in "タイトル", with: "New Task1"
+      fill_in "説明", with: "Trying out Capybara"
+      fill_in "終了期限", with: "2050/02/01"
+      select "低", from: "task_priority"
+      click_button "作成"
+
+      click_link "新規タスク"
+      fill_in "タイトル", with: "Important Task1"
+      fill_in "説明", with: "Trying out Capybara"
+      fill_in "終了期限", with: "2050/01/01"
+      select "高", from: "task_priority"
+      click_button "作成"
+
+      fill_in "search_title", with: "1"
+      click_button "検索"
+
+      expect(page).to have_content "Test Task1"
+      expect(page).to have_content "New Task1"
+      expect(page).to have_content "Important Task1"
+      expect(page).to_not have_content "Test Task2"
+      expect(page).to_not have_content "Test Task3"
+
+      click_link "作成日"
+
+      tasks = all('.tasks')
+      expect(tasks[0]).to have_content('Important Task1')
+      expect(tasks[1]).to have_content('New Task1')
+      expect(tasks[2]).to have_content('Test Task1')
+      expect(page).to_not have_content "Test Task2"
+      expect(page).to_not have_content "Test Task3"
+
+      click_link "終了期限"
+
+      tasks = all('.tasks')
+      expect(tasks[0]).to have_content('Test Task1')
+      expect(tasks[1]).to have_content('New Task1')
+      expect(tasks[2]).to have_content('Important Task1')
+      expect(page).to_not have_content "Test Task2"
+      expect(page).to_not have_content "Test Task3"
+
+      click_link "優先度"
+
+      tasks = all('.tasks')
+      expect(tasks[0]).to have_content('Important Task1')
+      expect(tasks[1]).to have_content('Test Task1')
+      expect(tasks[2]).to have_content('New Task1')
+      expect(page).to_not have_content "Test Task2"
+      expect(page).to_not have_content "Test Task3"
     end
 
     scenario "not change the task created by another user" do

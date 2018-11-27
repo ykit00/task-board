@@ -1,17 +1,20 @@
 module TasksHelper
   def set_sort_button_attr(title, column)
-    direction = case request.fullpath.match(/(?<=sort_direction=)(asc|desc)/).to_s
-                when 'desc'
-                  'asc'
-                when 'asc'
-                  nil
-                else
-                  'desc'
-                end
+    if params[:sort_column].nil? && params[:sort_direction].nil?
+      direction = 'desc'
+      button = 'neutral'
+    elsif params[:sort_column] == column && params[:sort_direction] == 'desc'
+      direction = 'asc'
+      button = 'down'
+    elsif params[:sort_column] == column && params[:sort_direction] == 'asc'
+      column = nil
+      direction = nil
+      button = 'up'
+    else
+      direction = 'desc'
+      button = 'neutral'
+    end
 
-    column =  nil unless direction
-    # direction = nil if column == request.fullpath.match(/(?<=sort_column=)(.*)(?=&)/).to_s
-
-    @sort_attr = { title: title, column: column, direction: direction }
+    @sort_attr = { title: title, column: column, direction: direction, button: button }
   end
 end

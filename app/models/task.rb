@@ -10,7 +10,16 @@ class Task < ApplicationRecord
 
   def self.sort_tasks(column, direction)
     return order(created_at: :desc) unless column && direction
-    order(column + ' ' + direction + ' NULLS LAST')
+    case column
+    when 'priority'
+      order(priority: direction.to_sym)
+    when 'created_at'
+      order(created_at: direction.to_sym)
+    when 'deadline'
+      order(deadline: direction.to_sym)
+    else
+      order(created_at: :desc)
+    end
   end
 
   def self.search_tasks(column, value)
