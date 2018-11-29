@@ -15,7 +15,7 @@
         <%= select_tag :search_priority, options_for_select(Task.priorities_i18n.invert, selected: params[:search_priority]), include_blank: true, class: 'form-control' %>
         <%= label_tag :search_status, "状態", class: 'px-2'%>
         <%= select_tag :search_status, options_for_select(Task.statuses_i18n.invert, selected: params[:search_status]), include_blank: true, class: 'form-control' %>
-        <%= text_field_tag :search_title, params[:search_title], placeholder: 'タイトル検索', class: 'form-control mr-sm-2 ml-2' %>
+        <%= text_field_tag :search_title, params[:search_title], placeholder: 'タイトル・ラベル検索', class: 'form-control mr-sm-2 ml-2' %>
         <%= submit_tag "検索", class: 'btn btn-outline-success my-2 my-sm-0' %>
         <%= link_to 'リセット', tasks_path, class: 'btn btn-outline-secondary mx-2' %>
       <% end %>

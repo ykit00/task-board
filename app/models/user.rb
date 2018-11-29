@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   has_many :tasks, dependent: :destroy
-  has_many :task_labels, dependent: :destroy
+  has_many :task_labels, foreign_key: :created_user_id, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 30 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
