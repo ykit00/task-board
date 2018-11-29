@@ -3,11 +3,9 @@ class UsersController < ApplicationController
   before_action :current_user_required, only: [:show, :edit, :update, :destroy]
   skip_before_action :login_required, only: [:new, :create]
 
-
-  # 管理者ユーザー作成後に有効化する
-  # def index
-  #   @users = User.all.page params[:page]
-  # end
+  def index
+    @users = User.all.page params[:page]
+  end
 
   def new
     @user = User.new

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-
+# TODO: Adminに対応したSpecを書く
 RSpec.feature "Tasks", type: :feature do
 
   let(:user_a) { FactoryBot.create(:user) }
