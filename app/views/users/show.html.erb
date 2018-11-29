@@ -1,10 +1,6 @@
 <div class="container">
   <header>
-    <div class="flash-message mb-5">
-      <% flash.each do |message_type, message| %>
-        <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
-      <% end %>
-    </div>
+    <%= render 'shared/flash_message' %>
   </header>
 
   <div class="row">
@@ -13,7 +9,8 @@
       <p>email: <%= @user.email %></p>
 
       <%= link_to '編集', edit_user_path, class: 'btn btn-block btn-primary' %>
-      <%= link_to '戻る', users_path, class: 'btn btn-block btn-secondary' %>
+      <%= link_to '戻る', tasks_path, class: 'btn btn-block btn-secondary' %>
+      <%= link_to 'ログアウト', logout_path, method: :delete, class: 'btn btn-block btn-secondary' %>
     </div>
   </div>
 </div>

@@ -8,22 +8,36 @@ class Task < ApplicationRecord
   enum status: { not_yet: 0, in_progress: 1, done: 2, pending: 3, discontinued: 4 }
   enum priority: { low: 1, middle: 2, high: 3 }
 
-  scope :sort_by_created_at_asc, -> { order('created_at ASC') }
-  scope :sort_by_created_at_desc, -> { order('created_at DESC') }
-  scope :sort_by_deadline_asc, -> { order('deadline ASC NULLS LAST') }
-  scope :sort_by_deadline_desc, -> { order('deadline DESC NULLS LAST') }
-  scope :sort_by_priority_asc, -> { order('priority ASC NULLS LAST') }
-  scope :sort_by_priority_desc, -> { order('priority DESC NULLS LAST') }
+  def self.sort_tasks(column, direction)
+    return order(created_at: :desc) unless column && direction
+    case column
+    when 'priority'
+      order(priority: direction.to_sym)
+    when 'created_at'
+      order(created_at: direction.to_sym)
+    when 'deadline'
+      order(deadline: direction.to_sym)
+    else
+      order(created_at: :desc)
+    end
+  end
 
-  scope :search_by_title, ->(title) { where 'title LIKE ?', "%#{title}%" }
-  scope :search_by_status, ->(status) { where status: status }
-  scope :search_by_priority, ->(priority) { where priority: priority }
-
+  def self.search_tasks(column, value)
+    case column
+    when 'title'
+      where 'title LIKE ?', "%#{value}%"
+    when 'status'
+      where status: value
+    when 'priority'
+      where priority: value
+    else
+      self
+    end
+  end
 
   private
 
     def deadline_is_not_past
       errors.add(:deadline, 'は過去の日時を設定できません。') if deadline.present? && deadline.past?
     end
-
 end

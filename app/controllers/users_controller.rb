@@ -1,9 +1,13 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :current_user_required, only: [:show, :edit, :update, :destroy]
+  skip_before_action :login_required, only: [:new, :create]
 
-  def index
-    @users = User.all.page params[:page]
-  end
+
+  # 管理者ユーザー作成後に有効化する
+  # def index
+  #   @users = User.all.page params[:page]
+  # end
 
   def new
     @user = User.new
@@ -12,8 +16,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = "ユーザー作成に成功しました。"
-      redirect_to root_path
+      flash[:success] = "ユーザー登録が完了しました。"
+      log_in @user
+      redirect_to tasks_path
     else
       render 'new'
     end
@@ -47,5 +52,9 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def current_user_required
+      redirect_to current_user unless current_user?(@user)
     end
 end
