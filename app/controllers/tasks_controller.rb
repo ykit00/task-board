@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = current_user.tasks
+    @tasks = current_user.tasks.includes(:task_labels)
     @tasks = @tasks.sort_tasks(params[:sort_column], params[:sort_direction])
     search_tasks
     @tasks = @tasks.page params[:page]
