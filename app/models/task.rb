@@ -24,11 +24,10 @@ class Task < ApplicationRecord
     end
   end
 
-  # FIXME: 「これ」というタイトルをタイトル検索できない
   def self.search_tasks(column, value)
     case column
     when 'title'
-      joins(:task_labels).where('tasks.title LIKE ? OR task_labels.title LIKE ?', "%#{value}%", "%#{value}%")
+      includes(:task_labels).where('tasks.title LIKE ? OR task_labels.title LIKE ?', "%#{value}%", "%#{value}%").references(:task_labels)
     when 'status'
       where status: value
     when 'priority'
@@ -45,7 +44,7 @@ class Task < ApplicationRecord
 
     delete_labels.each do |label|
       delete_label = task_labels.find_by(title: label)
-      delete_label.destroy
+      label_attached_tasks.find_by(task_label_id: delete_label.id).destroy
     end
 
     new_labels.each do |label|
