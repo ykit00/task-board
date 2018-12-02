@@ -8,4 +8,17 @@ class User < ApplicationRecord
             uniqueness: { case_sensitive: false }
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+
+  before_destroy :validate_last_one_administrator
+
+  private
+
+    def validate_last_one_administrator
+      if admin? && User.where(admin: 'true').count <= 1
+        # errors.add :base, '最後の1人の管理者ユーザーです。削除できません。'
+        throw(:abort)
+      end
+    end
+
+
 end
