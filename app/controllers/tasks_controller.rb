@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = current_user.tasks
+    @tasks = current_user.tasks.includes(:task_labels)
     @tasks = @tasks.sort_tasks(params[:sort_column], params[:sort_direction])
     search_tasks
     @tasks = @tasks.page params[:page]
@@ -31,6 +31,8 @@ class TasksController < ApplicationController
   def update
     if @task.update(task_params)
       flash[:success] = 'タスクを更新しました。'
+      labels = params[:label_title].split(",")
+      @task.save_labels(labels)
       redirect_to tasks_path
     else
       render :edit
@@ -54,7 +56,7 @@ class TasksController < ApplicationController
     end
 
     def search_tasks
-      @tasks = @tasks.search_tasks('title', params[:search_title]) if params[:search_title].present?
+      @tasks = @tasks.includes(:task_labels).search_tasks('title', params[:search_title]) if params[:search_title].present?
       @tasks = @tasks.search_tasks('status', params[:search_status]) if params[:search_status].present?
       @tasks = @tasks.search_tasks('priority', params[:search_priority]) if params[:search_priority].present?
     end
