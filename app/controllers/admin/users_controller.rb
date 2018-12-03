@@ -1,9 +1,9 @@
 class Admin::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_users, except: [:show, :new, :edit]
   before_action :administrator_required
 
   def index
-    @users = User.all
   end
 
   def show
@@ -20,7 +20,7 @@ class Admin::UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      redirect_to @user, notice: 'User was successfully created.'
+      redirect_to admin_users_url, notice: 'User was successfully created.'
     else
       render :new
     end
@@ -28,7 +28,7 @@ class Admin::UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'User was successfully updated.'
+      redirect_to admin_users_url, notice: 'User was successfully updated.'
     else
       render :edit
     end
@@ -47,8 +47,12 @@ class Admin::UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
+    def set_users
+      @users = User.all
+    end
+
     def user_params
-      params.fetch(:user, {})
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin)
     end
 
     def administrator_required
