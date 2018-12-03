@@ -1,0 +1,58 @@
+<div class="container">
+
+  <%= render 'shared/flash_message' %>
+
+  <p>
+    <strong>Name:</strong>
+    <%= @user.name %>
+  </p>
+
+  <p>
+    <strong>Email:</strong>
+    <%= @user.email %>
+  </p>
+
+  <p>
+    <strong>Admin:</strong>
+    <%= @user.admin %>
+  </p>
+
+  <h2>Tasks</h2>
+
+  <%# TODO: ソート機能を有効にする %>
+  <table class="table table-hover tasks-table">
+    <thead>
+    <tr>
+      <th scope="col">状態</th>
+      <th scope="col">タイトル</th>
+      <th scope="col">
+        <%#= render 'sort_button', set_sort_button_attr('優先度', 'priority') %>
+        優先度
+      </th>
+      <th scope="col">
+        <%#= render 'sort_button', set_sort_button_attr('作成日', 'created_at') %>
+        作成日
+      </th>
+      <th scope="col">
+        <%#= render 'sort_button', set_sort_button_attr('終了期限', 'deadline') %>
+        終了期限
+      </th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @user.tasks.each do |task| %>
+      <tr class="tasks">
+        <td class="align-middle"><%= task.status_i18n %></td>
+        <td class="align-middle"><%= task.title %></td>
+        <td class="align-middle"><%= task.priority_i18n if task.priority.present? %></td>
+        <td class="align-middle"><%= task.created_at.to_s(:date) %></td>
+        <td class="align-middle"><%= task.deadline.to_s(:date) if task.deadline.present? %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'Edit', edit_admin_user_path(@user) %> |
+  <%= link_to 'Back', admin_users_path %>
+</div>
