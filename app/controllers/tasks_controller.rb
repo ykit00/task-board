@@ -21,6 +21,8 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     if @task.save
+      labels = params[:label_title].split(",")
+      @task.save_labels(labels)
       flash[:success] = 'タスクを作成しました。'
       redirect_to tasks_path
     else
@@ -30,9 +32,9 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      flash[:success] = 'タスクを更新しました。'
       labels = params[:label_title].split(",")
       @task.save_labels(labels)
+      flash[:success] = 'タスクを更新しました。'
       redirect_to tasks_path
     else
       render :edit
