@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <%= form_with(model: @task, local: true, class: 'col-md-4 offset-md-4') do |f| %>
+    <%= form_with(model: @task, local: true, class: 'col-md-6 offset-md-3') do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.label :title %>
@@ -18,6 +18,8 @@
       <%= f.select :priority, Task.priorities.keys.map { |k| [Task.priorities_i18n[k], k]}, {}, include_blank: true, class: 'form-control' %>
       <%= f.label :status %>
       <%= f.select :status, Task.statuses.keys.map { |k| [Task.statuses_i18n[k], k]}, {}, class: 'form-control' %>
+      <%= f.label 'ラベル' %>
+      <%= text_field_tag :label_title, @task.labels_as_string, class: 'form-control' %>
       <%= f.submit yield(:submit_button_text), class: 'btn btn-block btn-primary mt-3' %>
       <%= link_to '戻る', :back, class: 'btn btn-block btn-secondary' %>
     <% end %>

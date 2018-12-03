@@ -1,5 +1,7 @@
 class Task < ApplicationRecord
   belongs_to :user
+  has_many :label_attached_tasks, dependent: :destroy
+  has_many :task_labels, through: :label_attached_tasks
 
   validates :title, presence: true, length: { maximum: 30 }
   validates :description, length: { maximum: 100 }
@@ -25,7 +27,7 @@ class Task < ApplicationRecord
   def self.search_tasks(column, value)
     case column
     when 'title'
-      where 'title LIKE ?', "%#{value}%"
+      includes(:task_labels).where('tasks.title LIKE ? OR task_labels.title LIKE ?', "%#{value}%", "%#{value}%").references(:task_labels)
     when 'status'
       where status: value
     when 'priority'
@@ -33,6 +35,26 @@ class Task < ApplicationRecord
     else
       self
     end
+  end
+
+  def save_labels(labels)
+    current_labels = task_labels.pluck(:title) unless task_labels.nil?
+    delete_labels = current_labels - labels
+    new_labels = labels - current_labels
+
+    delete_labels.each do |label|
+      delete_label = task_labels.find_by(title: label)
+      label_attached_tasks.find_by(task_label_id: delete_label.id).destroy
+    end
+
+    new_labels.each do |label|
+      post_label = user.task_labels.find_or_create_by(title: label)
+      task_labels << post_label
+    end
+  end
+
+  def labels_as_string
+    task_labels.pluck(:title).join(",")
   end
 
   private
